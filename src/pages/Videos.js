@@ -99,11 +99,9 @@ export default function Videos() {
                 />
               </div>
               {/* Video Info */}
-              <div style={{
-                padding: '1.5rem', background: 'var(--card)',
-                borderTop: '2px solid var(--gold)',
+              <div style={{ padding: '1.5rem', background: 'var(--card)',
                 border: '1px solid var(--border)', borderTop: '2px solid var(--gold)'
-              }}>
+                }}>
                 <div style={{
                   display: 'inline-block', padding: '3px 12px',
                   background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.3)',
