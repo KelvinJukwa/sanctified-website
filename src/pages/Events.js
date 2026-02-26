@@ -1,5 +1,129 @@
 import { useState } from 'react';
 
+const events = [
+  {
+    id: 1,
+    title: 'Easter Praise Concert',
+    date: '2026-04-04',
+    time: '6:00 PM',
+    venue: 'Central SDA Church, Harare',
+    description: 'Join us for a powerful Easter praise and worship evening as we celebrate the resurrection of our Lord Jesus Christ.',
+    category: 'Concert',
+    ticketsAvailable: true,
+    ticketUrl: 'https://ticketora.com/sanctified-easter-2026',
+    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80',
+    featured: true,
+  },
+  {
+    id: 2,
+    title: 'Youth Camp Rally',
+    date: '2026-05-20',
+    time: '7:30 PM',
+    venue: 'Gweru SDA Camp, Gweru',
+    description: 'An electrifying evening of gospel music at the annual youth camp rally. Come and be blessed!',
+    category: 'Rally',
+    ticketsAvailable: false,
+    ticketUrl: null,
+    image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80',
+    featured: false,
+  },
+  {
+    id: 3,
+    title: 'Annual Thanksgiving Concert',
+    date: '2026-11-15',
+    time: '5:00 PM',
+    venue: 'Harare City SDA Church, Harare',
+    description: 'Our biggest event of the year. An evening of thanksgiving, praise and worship with special guests.',
+    category: 'Concert',
+    ticketsAvailable: true,
+    ticketUrl: 'https://ticketora.com/sanctified-thanksgiving-2026',
+    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80',
+    featured: true,
+  },
+  {
+    id: 4,
+    title: 'Community Outreach Program',
+    date: '2026-06-14',
+    time: '10:00 AM',
+    venue: 'Mbare Community Hall, Harare',
+    description: 'Free community gospel outreach. Bring your family and neighbours for a morning of music and ministry.',
+    category: 'Outreach',
+    ticketsAvailable: false,
+    ticketUrl: null,
+    image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80',
+    featured: false,
+  },
+  {
+    id: 5,
+    title: 'Christmas Cantata',
+    date: '2026-12-20',
+    time: '6:30 PM',
+    venue: 'Rainbow Towers Hotel, Harare',
+    description: 'A grand Christmas celebration featuring original compositions, carols and special performances by Sanctified.',
+    category: 'Concert',
+    ticketsAvailable: true,
+    ticketUrl: 'https://ticketora.com/sanctified-christmas-2026',
+    image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80',
+    featured: true,
+  },
+  {
+    id: 6,
+    title: 'Prayer & Worship Night',
+    date: '2026-03-27',
+    time: '7:00 PM',
+    venue: 'Borrowdale SDA Church, Harare',
+    description: 'An intimate evening of prayer and worship. Come as you are and experience the presence of God.',
+    category: 'Worship Night',
+    ticketsAvailable: false,
+    ticketUrl: null,
+    image: 'https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800&q=80',
+    featured: false,
+  },
+];
+
+const categories = ['All', 'Concert', 'Rally', 'Outreach', 'Worship Night'];
+
+const categoryColors = {
+  Concert: 'rgba(201,168,76,0.15)',
+  Rally: 'rgba(76,130,201,0.15)',
+  Outreach: 'rgba(76,201,130,0.15)',
+  'Worship Night': 'rgba(201,76,130,0.15)',
+};
+
+const categoryBorders = {
+  Concert: 'rgba(201,168,76,0.5)',
+  Rally: 'rgba(76,130,201,0.5)',
+  Outreach: 'rgba(76,201,130,0.5)',
+  'Worship Night': 'rgba(201,76,130,0.5)',
+};
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  return {
+    day: d.getDate(),
+    month: d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
+    year: d.getFullYear(),
+    full: d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+    weekday: d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase(),
+  };
+}
+
+function TicketLink({ url, style, children }) {
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      style={style}
+      onMouseOver={(e) => (e.currentTarget.style.background = 'var(--gold-light)')}
+      onMouseOut={(e) => (e.currentTarget.style.background = 'var(--gold)')}
+    >
+      {children}
+    </a>
+  );
+}
+
 function Footer() {
   return (
     <footer style={{ background: 'var(--dark)', borderTop: '1px solid var(--border)', padding: '3rem 2rem 2rem' }}>
@@ -11,7 +135,7 @@ function Footer() {
               SANCTIFIED
             </div>
             <div style={{ fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>
-              MUSIC 
+              GOSPEL MUSIC GROUP
             </div>
           </div>
           <div className="gold-line" />
@@ -28,7 +152,7 @@ function Footer() {
         <div className="gold-line" style={{ marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)' }}>
-            © 2026 SANCTIFIED MUSIC · ALL RIGHTS RESERVED
+            © 2026 SANCTIFIED MUSIC  · ALL RIGHTS RESERVED
           </p>
           <p style={{ fontSize: '0.75rem', color: 'var(--muted)', fontStyle: 'italic' }}>
             Designed & maintained by{' '}
@@ -45,83 +169,12 @@ function Footer() {
   );
 }
 
-const contactDetails = [
-  {
-    icon: '📞',
-    label: 'Phone',
-    lines: ['+263 77 123 4567', '+263 71 987 6543'],
-    sub: 'Mon – Sat, 8am – 8pm',
-  },
-  {
-    icon: '📧',
-    label: 'Email',
-    lines: ['sanctified@gmail.com', 'booking@sanctified.co.zw'],
-    sub: 'We reply within 24 hours',
-  },
-  {
-    icon: '📍',
-    label: 'Location',
-    lines: ['Harare, Zimbabwe'],
-    sub: 'Seventh-day Adventist Gospel Group',
-  },
-  {
-    icon: '🎵',
-    label: 'Booking',
-    lines: ['+263 77 123 4567'],
-    sub: 'For event bookings & performances',
-  },
-];
+export default function Events() {
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
-const socials = [
-  { label: 'Facebook', icon: 'f', url: 'https://facebook.com/sanctifiedgospel', color: 'rgba(66,103,178,0.8)' },
-  { label: 'Instagram', icon: '✦', url: 'https://instagram.com/sanctifiedgospel', color: 'rgba(193,53,132,0.8)' },
-  { label: 'YouTube', icon: '▶', url: 'https://youtube.com/@sanctifiedgospel', color: 'rgba(255,0,0,0.8)' },
-  { label: 'WhatsApp', icon: '✉', url: 'https://wa.me/263771234567', color: 'rgba(37,211,102,0.8)' },
-];
-
-export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
-  const [sent, setSent] = useState(false);
-  const [errors, setErrors] = useState({});
-
-  const validate = () => {
-    const e = {};
-    if (!form.name.trim()) e.name = 'Name is required';
-    if (!form.email.trim()) e.email = 'Email is required';
-    if (!form.message.trim()) e.message = 'Message is required';
-    return e;
-  };
-
-  const handleSubmit = () => {
-    const e = validate();
-    if (Object.keys(e).length > 0) { setErrors(e); return; }
-    setSent(true);
-    setForm({ name: '', email: '', phone: '', subject: '', message: '' });
-    setErrors({});
-  };
-
-  const inputStyle = (field) => ({
-    width: '100%',
-    padding: '0.85rem 1rem',
-    background: 'var(--deep)',
-    border: `1px solid ${errors[field] ? 'rgba(220,80,80,0.6)' : 'rgba(201,168,76,0.2)'}`,
-    color: 'var(--text)',
-    fontFamily: 'Crimson Pro, serif',
-    fontSize: '1rem',
-    outline: 'none',
-    transition: 'border-color 0.3s',
-    boxSizing: 'border-box',
-  });
-
-  const labelStyle = {
-    display: 'block',
-    color: 'var(--muted)',
-    fontSize: '0.68rem',
-    letterSpacing: '0.25em',
-    marginBottom: '0.5rem',
-    textTransform: 'uppercase',
-    fontFamily: 'Cinzel, serif',
-  };
+  const featured = events.filter((e) => e.featured);
+  const filtered = activeCategory === 'All' ? events : events.filter((e) => e.category === activeCategory);
 
   return (
     <div style={{ paddingTop: '75px', minHeight: '100vh', background: 'var(--deep)' }}>
@@ -136,277 +189,287 @@ export default function Contact() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
           <div style={{ width: '40px', height: '1px', background: 'var(--gold)' }} />
           <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.5em', color: 'var(--gold)' }}>
-            GET IN TOUCH
+            COME WORSHIP WITH US
           </span>
           <div style={{ width: '40px', height: '1px', background: 'var(--gold)' }} />
         </div>
         <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', color: 'var(--text)', marginBottom: '1rem', lineHeight: 1.1 }}>
-          Contact Us
+          Events & Concerts
         </h1>
         <div className="gold-line" style={{ margin: '0 auto 1.5rem', maxWidth: '150px' }} />
-        <p style={{ color: 'var(--muted)', fontStyle: 'italic', fontSize: '1.1rem', maxWidth: '520px', margin: '0 auto' }}>
-          Whether you want to book us for an event, collaborate, or simply say hello — we would love to hear from you
+        <p style={{ color: 'var(--muted)', fontStyle: 'italic', fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto' }}>
+          Join us for live performances, worship nights and community outreach events across Zimbabwe
         </p>
       </section>
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '5rem 2rem 0' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '4rem 2rem 0' }}>
 
-        {/* CONTACT CARDS */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem', marginBottom: '5rem' }}>
-          {contactDetails.map((item) => (
-            <div
-              key={item.label}
-              style={{ padding: '2rem 1.5rem', background: 'var(--card)', border: '1px solid var(--border)', textAlign: 'center', transition: 'all 0.3s' }}
-              onMouseOver={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
-              onMouseOut={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-            >
-              <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{item.icon}</div>
-              <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.3em', color: 'var(--gold)', marginBottom: '0.75rem' }}>
-                {item.label.toUpperCase()}
-              </div>
-              <div className="gold-line" style={{ margin: '0 auto 0.75rem', maxWidth: '60px' }} />
-              {item.lines.map((line, i) => (
-                <div key={i} style={{ color: 'var(--text)', fontSize: '0.95rem', marginBottom: '3px', letterSpacing: '0.05em' }}>
-                  {line}
+        {/* FEATURED CONCERTS */}
+        <div style={{ marginBottom: '5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+            <div style={{ width: '30px', height: '1px', background: 'var(--gold)' }} />
+            <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.4em', color: 'var(--gold)' }}>
+              FEATURED CONCERTS
+            </span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '1.5rem' }}>
+            {featured.map((event) => {
+              const d = formatDate(event.date);
+              return (
+                <div
+                  key={event.id}
+                  onClick={() => setSelectedEvent(event)}
+                  style={{ position: 'relative', overflow: 'hidden', border: '1px solid var(--border)', cursor: 'pointer', transition: 'all 0.35s', background: 'var(--card)' }}
+                  onMouseOver={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.5)'; e.currentTarget.style.transform = 'translateY(-5px)'; }}
+                  onMouseOut={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                >
+                  <div style={{ position: 'relative', paddingBottom: '52%', overflow: 'hidden' }}>
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                      onMouseOver={(e) => (e.target.style.transform = 'scale(1.05)')}
+                      onMouseOut={(e) => (e.target.style.transform = 'scale(1)')}
+                    />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,8,16,0.9) 0%, transparent 50%)' }} />
+                    <div style={{ position: 'absolute', top: '1rem', left: '1rem', background: 'rgba(8,8,16,0.85)', backdropFilter: 'blur(8px)', border: '1px solid rgba(201,168,76,0.4)', padding: '0.6rem 1rem', textAlign: 'center', minWidth: '60px' }}>
+                      <div style={{ fontFamily: 'Cinzel, serif', fontSize: '1.6rem', fontWeight: 700, color: 'var(--gold)', lineHeight: 1 }}>{d.day}</div>
+                      <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)', marginTop: '2px' }}>{d.month} {d.year}</div>
+                    </div>
+                    {event.ticketsAvailable && (
+                      <div style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'var(--gold)', padding: '4px 12px', fontFamily: 'Cinzel, serif', fontSize: '0.58rem', letterSpacing: '0.15em', color: 'var(--deep)', fontWeight: 700 }}>
+                        TICKETS AVAILABLE
+                      </div>
+                    )}
+                  </div>
+                  <div style={{ padding: '1.5rem', borderTop: '2px solid var(--gold)' }}>
+                    <div style={{ display: 'inline-block', marginBottom: '0.6rem', padding: '2px 10px', background: categoryColors[event.category] || 'rgba(201,168,76,0.1)', border: `1px solid ${categoryBorders[event.category] || 'rgba(201,168,76,0.3)'}`, fontFamily: 'Cinzel, serif', fontSize: '0.58rem', letterSpacing: '0.18em', color: 'var(--gold)' }}>
+                      {event.category}
+                    </div>
+                    <h3 style={{ color: 'var(--text)', fontSize: '1.2rem', marginBottom: '0.5rem', lineHeight: 1.3 }}>{event.title}</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '1rem' }}>
+                      <span style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>🕐 {event.time}</span>
+                      <span style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>📍 {event.venue}</span>
+                    </div>
+                    <p style={{ color: 'var(--muted)', fontSize: '0.9rem', lineHeight: 1.7, fontStyle: 'italic', marginBottom: '1.25rem' }}>
+                      {event.description}
+                    </p>
+                    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setSelectedEvent(event); }}
+                        style={{ padding: '0.6rem 1.5rem', background: 'transparent', border: '1px solid var(--border)', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.62rem', letterSpacing: '0.15em', transition: 'all 0.3s' }}
+                        onMouseOver={(e) => { e.currentTarget.style.borderColor = 'var(--gold)'; e.currentTarget.style.color = 'var(--gold)'; }}
+                        onMouseOut={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)'; }}
+                      >
+                        View Details
+                      </button>
+                      {event.ticketsAvailable && (
+                        <TicketLink
+                          url={event.ticketUrl}
+                          style={{ padding: '0.6rem 1.5rem', background: 'var(--gold)', border: '1px solid var(--gold)', color: 'var(--deep)', textDecoration: 'none', fontFamily: 'Cinzel, serif', fontSize: '0.62rem', letterSpacing: '0.15em', fontWeight: 700, transition: 'all 0.3s', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+                        >
+                          🎟 Get Tickets
+                        </TicketLink>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              ))}
-              <div style={{ color: 'var(--muted)', fontSize: '0.78rem', fontStyle: 'italic', marginTop: '0.5rem' }}>
-                {item.sub}
-              </div>
-            </div>
-          ))}
+              );
+            })}
+          </div>
         </div>
 
-        {/* MAIN CONTENT: FORM + SIDEBAR */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '3rem', marginBottom: '5rem', alignItems: 'start' }} className="contact-grid">
+        {/* DIVIDER */}
+        <div className="gold-line" style={{ marginBottom: '4rem' }} />
 
-          {/* CONTACT FORM */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+        {/* ALL EVENTS */}
+        <div style={{ marginBottom: '5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <div style={{ width: '30px', height: '1px', background: 'var(--gold)' }} />
-              <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.4em', color: 'var(--gold)' }}>
-                SEND US A MESSAGE
-              </span>
+              <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.4em', color: 'var(--gold)' }}>ALL EVENTS</span>
             </div>
-
-            {sent ? (
-              <div style={{ padding: '4rem 2rem', border: '1px solid rgba(201,168,76,0.3)', background: 'var(--card)', textAlign: 'center' }}>
-                <div style={{ fontSize: '3rem', color: 'var(--gold)', marginBottom: '1rem', fontFamily: 'Cinzel, serif' }}>✦</div>
-                <h3 style={{ color: 'var(--gold)', fontSize: '1.5rem', marginBottom: '1rem' }}>Message Received!</h3>
-                <p style={{ color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.8, marginBottom: '2rem' }}>
-                  Thank you for reaching out to Sanctified. We will get back to you within 24 hours. God bless you!
-                </p>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              {categories.map((cat) => (
                 <button
-                  onClick={() => setSent(false)}
-                  style={{ padding: '0.75rem 2rem', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.72rem', letterSpacing: '0.2em', transition: 'all 0.3s' }}
-                  onMouseOver={(e) => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = 'var(--deep)'; }}
-                  onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--gold)'; }}
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  style={{ padding: '0.4rem 1.2rem', background: activeCategory === cat ? 'var(--gold)' : 'transparent', border: '1px solid', borderColor: activeCategory === cat ? 'var(--gold)' : 'var(--border)', color: activeCategory === cat ? 'var(--deep)' : 'var(--muted)', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.62rem', letterSpacing: '0.15em', transition: 'all 0.3s' }}
                 >
-                  Send Another Message
+                  {cat}
                 </button>
-              </div>
-            ) : (
-              <div style={{ background: 'var(--card)', border: '1px solid var(--border)', padding: '2.5rem' }}>
-
-                {/* Row 1: Name + Email */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }} className="form-row">
-                  <div>
-                    <label style={labelStyle}>Full Name *</label>
-                    <input
-                      type="text"
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      placeholder="Your full name"
-                      style={inputStyle('name')}
-                      onFocus={(e) => (e.target.style.borderColor = 'var(--gold)')}
-                      onBlur={(e) => (e.target.style.borderColor = errors.name ? 'rgba(220,80,80,0.6)' : 'rgba(201,168,76,0.2)')}
-                    />
-                    {errors.name && <span style={{ color: 'rgba(220,80,80,0.8)', fontSize: '0.72rem', marginTop: '4px', display: 'block' }}>{errors.name}</span>}
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Email Address *</label>
-                    <input
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      placeholder="your@email.com"
-                      style={inputStyle('email')}
-                      onFocus={(e) => (e.target.style.borderColor = 'var(--gold)')}
-                      onBlur={(e) => (e.target.style.borderColor = errors.email ? 'rgba(220,80,80,0.6)' : 'rgba(201,168,76,0.2)')}
-                    />
-                    {errors.email && <span style={{ color: 'rgba(220,80,80,0.8)', fontSize: '0.72rem', marginTop: '4px', display: 'block' }}>{errors.email}</span>}
-                  </div>
-                </div>
-
-                {/* Row 2: Phone + Subject */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }} className="form-row">
-                  <div>
-                    <label style={labelStyle}>Phone Number</label>
-                    <input
-                      type="tel"
-                      value={form.phone}
-                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      placeholder="+263 77 000 0000"
-                      style={inputStyle('phone')}
-                      onFocus={(e) => (e.target.style.borderColor = 'var(--gold)')}
-                      onBlur={(e) => (e.target.style.borderColor = 'rgba(201,168,76,0.2)')}
-                    />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Subject</label>
-                    <select
-                      value={form.subject}
-                      onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                      style={{ ...inputStyle('subject'), cursor: 'pointer', colorScheme: 'dark' }}
-                      onFocus={(e) => (e.target.style.borderColor = 'var(--gold)')}
-                      onBlur={(e) => (e.target.style.borderColor = 'rgba(201,168,76,0.2)')}
-                    >
-                      <option value="" style={{ background: 'var(--deep)' }}>Select a subject</option>
-                      <option value="Booking" style={{ background: 'var(--deep)' }}>Event Booking</option>
-                      <option value="Collaboration" style={{ background: 'var(--deep)' }}>Collaboration</option>
-                      <option value="General" style={{ background: 'var(--deep)' }}>General Inquiry</option>
-                      <option value="Media" style={{ background: 'var(--deep)' }}>Media & Press</option>
-                      <option value="Prayer" style={{ background: 'var(--deep)' }}>Prayer Request</option>
-                      <option value="Other" style={{ background: 'var(--deep)' }}>Other</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Message */}
-                <div style={{ marginBottom: '2rem' }}>
-                  <label style={labelStyle}>Message *</label>
-                  <textarea
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    rows={6}
-                    placeholder="Write your message here..."
-                    style={{ ...inputStyle('message'), resize: 'vertical', lineHeight: 1.7 }}
-                    onFocus={(e) => (e.target.style.borderColor = 'var(--gold)')}
-                    onBlur={(e) => (e.target.style.borderColor = errors.message ? 'rgba(220,80,80,0.6)' : 'rgba(201,168,76,0.2)')}
-                  />
-                  {errors.message && <span style={{ color: 'rgba(220,80,80,0.8)', fontSize: '0.72rem', marginTop: '4px', display: 'block' }}>{errors.message}</span>}
-                </div>
-
-                <button
-                  onClick={handleSubmit}
-                  style={{ width: '100%', padding: '1rem', background: 'var(--gold)', color: 'var(--deep)', border: 'none', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.82rem', letterSpacing: '0.28em', fontWeight: 700, textTransform: 'uppercase', transition: 'all 0.3s' }}
-                  onMouseOver={(e) => (e.currentTarget.style.background = 'var(--gold-light)')}
-                  onMouseOut={(e) => (e.currentTarget.style.background = 'var(--gold)')}
-                >
-                  Send Message →
-                </button>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
 
-          {/* SIDEBAR */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-
-            {/* Quick Contact */}
-            <div style={{ background: 'var(--card)', border: '1px solid var(--border)', padding: '2rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-                <div style={{ width: '20px', height: '1px', background: 'var(--gold)' }} />
-                <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.62rem', letterSpacing: '0.3em', color: 'var(--gold)' }}>QUICK CONTACT</span>
-              </div>
-
-              {/* Phone Numbers */}
-              <div style={{ marginBottom: '1.5rem' }}>
-                <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)', marginBottom: '0.75rem' }}>📞 PHONE</div>
-                {['+263 77 123 4567', '+263 71 987 6543', '+263 78 456 7890'].map((num) => (
-                  <a
-                    key={num}
-                    href={`tel:${num.replace(/\s/g, '')}`}
-                    style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 0.75rem', marginBottom: '0.4rem', background: 'var(--deep)', border: '1px solid var(--border)', color: 'var(--text)', textDecoration: 'none', fontSize: '0.95rem', transition: 'all 0.3s' }}
-                    onMouseOver={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)'; e.currentTarget.style.color = 'var(--gold)'; }}
-                    onMouseOut={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text)'; }}
-                  >
-                    <span style={{ color: 'var(--gold)', fontSize: '0.8rem' }}>✆</span>
-                    {num}
-                  </a>
-                ))}
-              </div>
-
-              {/* Email */}
-              <div style={{ marginBottom: '1.5rem' }}>
-                <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)', marginBottom: '0.75rem' }}>📧 EMAIL</div>
-                {['sanctified@gmail.com', 'booking@sanctified.co.zw'].map((email) => (
-                  <a
-                    key={email}
-                    href={`mailto:${email}`}
-                    style={{ display: 'block', padding: '0.6rem 0.75rem', marginBottom: '0.4rem', background: 'var(--deep)', border: '1px solid var(--border)', color: 'var(--text)', textDecoration: 'none', fontSize: '0.88rem', transition: 'all 0.3s', wordBreak: 'break-all' }}
-                    onMouseOver={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)'; e.currentTarget.style.color = 'var(--gold)'; }}
-                    onMouseOut={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text)'; }}
-                  >
-                    ✉ {email}
-                  </a>
-                ))}
-              </div>
-
-              {/* WhatsApp CTA */}
-              <a
-                href="https://wa.me/263771234567"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', padding: '0.85rem', background: 'rgba(37,211,102,0.12)', border: '1px solid rgba(37,211,102,0.35)', color: 'rgba(37,211,102,0.9)', textDecoration: 'none', fontFamily: 'Cinzel, serif', fontSize: '0.68rem', letterSpacing: '0.2em', transition: 'all 0.3s' }}
-                onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(37,211,102,0.2)'; e.currentTarget.style.borderColor = 'rgba(37,211,102,0.6)'; }}
-                onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(37,211,102,0.12)'; e.currentTarget.style.borderColor = 'rgba(37,211,102,0.35)'; }}
-              >
-                ✉ CHAT ON WHATSAPP
-              </a>
-            </div>
-
-            {/* Social Media */}
-            <div style={{ background: 'var(--card)', border: '1px solid var(--border)', padding: '2rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-                <div style={{ width: '20px', height: '1px', background: 'var(--gold)' }} />
-                <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.62rem', letterSpacing: '0.3em', color: 'var(--gold)' }}>FOLLOW US</span>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                {socials.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.75rem 1rem', background: 'var(--deep)', border: '1px solid var(--border)', color: 'var(--text)', textDecoration: 'none', transition: 'all 0.3s' }}
-                    onMouseOver={(e) => { e.currentTarget.style.borderColor = s.color; e.currentTarget.style.color = s.color; }}
-                    onMouseOut={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text)'; }}
-                  >
-                    <span style={{ width: '28px', height: '28px', borderRadius: '50%', background: s.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', color: '#fff', flexShrink: 0 }}>
-                      {s.icon}
-                    </span>
-                    <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.15em' }}>
-                      {s.label}
-                    </span>
-                    <span style={{ marginLeft: 'auto', fontSize: '0.75rem', opacity: 0.5 }}>→</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Bible Verse */}
-            <div style={{ background: 'rgba(201,168,76,0.05)', border: '1px solid rgba(201,168,76,0.2)', padding: '1.75rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '2rem', color: 'var(--gold)', opacity: 0.25, fontFamily: 'Cinzel, serif', lineHeight: 1, marginBottom: '0.5rem' }}>"</div>
-              <p style={{ fontStyle: 'italic', fontSize: '0.95rem', color: 'var(--text)', lineHeight: 1.8, marginBottom: '1rem' }}>
-                How beautiful are the feet of those who bring good news!
-              </p>
-              <div className="gold-line" style={{ margin: '0 auto 0.75rem', maxWidth: '60px' }} />
-              <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--gold)' }}>
-                ROMANS 10:15
-              </span>
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {[...filtered].sort((a, b) => new Date(a.date) - new Date(b.date)).map((event) => {
+              const d = formatDate(event.date);
+              return (
+                <div
+                  key={event.id}
+                  onClick={() => setSelectedEvent(event)}
+                  className="event-row"
+                  style={{ display: 'grid', gridTemplateColumns: '100px 1fr auto', background: 'var(--card)', border: '1px solid var(--border)', overflow: 'hidden', transition: 'all 0.3s', cursor: 'pointer' }}
+                  onMouseOver={(e) => (e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)')}
+                  onMouseOut={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
+                >
+                  <div style={{ background: 'rgba(201,168,76,0.07)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1.5rem 0.5rem', textAlign: 'center' }}>
+                    <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.55rem', letterSpacing: '0.2em', color: 'var(--muted)', marginBottom: '2px' }}>{d.weekday}</div>
+                    <div style={{ fontFamily: 'Cinzel, serif', fontSize: '2rem', fontWeight: 700, color: 'var(--gold)', lineHeight: 1 }}>{d.day}</div>
+                    <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.58rem', letterSpacing: '0.15em', color: 'var(--muted)', marginTop: '2px' }}>{d.month}</div>
+                    <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.55rem', color: 'var(--muted)', marginTop: '1px' }}>{d.year}</div>
+                  </div>
+                  <div style={{ padding: '1.25rem 1.5rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+                      <div style={{ padding: '2px 10px', background: categoryColors[event.category] || 'rgba(201,168,76,0.08)', border: `1px solid ${categoryBorders[event.category] || 'rgba(201,168,76,0.2)'}`, fontFamily: 'Cinzel, serif', fontSize: '0.55rem', letterSpacing: '0.15em', color: 'var(--gold)' }}>
+                        {event.category}
+                      </div>
+                      {event.ticketsAvailable && (
+                        <div style={{ padding: '2px 10px', background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.4)', fontFamily: 'Cinzel, serif', fontSize: '0.55rem', letterSpacing: '0.15em', color: 'var(--gold)' }}>
+                          🎟 TICKETS AVAILABLE
+                        </div>
+                      )}
+                    </div>
+                    <h3 style={{ color: 'var(--text)', fontSize: '1.05rem', marginBottom: '0.4rem' }}>{event.title}</h3>
+                    <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+                      <span style={{ color: 'var(--muted)', fontSize: '0.82rem' }}>🕐 {event.time}</span>
+                      <span style={{ color: 'var(--muted)', fontSize: '0.82rem' }}>📍 {event.venue}</span>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1rem', borderLeft: '1px solid var(--border)' }}>
+                    {event.ticketsAvailable ? (
+                      <TicketLink
+                        url={event.ticketUrl}
+                        style={{ padding: '0.55rem 1.2rem', background: 'var(--gold)', color: 'var(--deep)', textDecoration: 'none', fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.15em', fontWeight: 700, whiteSpace: 'nowrap', transition: 'all 0.3s' }}
+                      >
+                        Get Tickets
+                      </TicketLink>
+                    ) : (
+                      <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.58rem', letterSpacing: '0.1em', color: 'var(--muted)', textAlign: 'center', padding: '0 0.5rem' }}>
+                        Free Entry
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
 
+      {/* EVENT DETAIL MODAL */}
+      {selectedEvent && (
+        <div
+          onClick={() => setSelectedEvent(null)}
+          style={{ position: 'fixed', inset: 0, zIndex: 1000, background: 'rgba(8,8,16,0.93)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', overflowY: 'auto' }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{ background: 'var(--card)', border: '1px solid rgba(201,168,76,0.3)', maxWidth: '680px', width: '100%', maxHeight: '90vh', overflowY: 'auto', position: 'relative' }}
+          >
+            <button
+              onClick={() => setSelectedEvent(null)}
+              style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'rgba(201,168,76,0.1)', border: '1px solid var(--border)', color: 'var(--gold)', cursor: 'pointer', width: '36px', height: '36px', fontSize: '1rem', zIndex: 10 }}
+            >
+              ✕
+            </button>
+
+            <div style={{ position: 'relative', paddingBottom: '45%', overflow: 'hidden' }}>
+              <img
+                src={selectedEvent.image}
+                alt={selectedEvent.title}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(19,19,30,1) 0%, transparent 60%)' }} />
+              <div style={{ position: 'absolute', bottom: '1.5rem', left: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{ background: 'rgba(8,8,16,0.85)', border: '1px solid rgba(201,168,76,0.5)', padding: '0.75rem 1.25rem', textAlign: 'center', backdropFilter: 'blur(8px)' }}>
+                  <div style={{ fontFamily: 'Cinzel, serif', fontSize: '2rem', fontWeight: 700, color: 'var(--gold)', lineHeight: 1 }}>
+                    {formatDate(selectedEvent.date).day}
+                  </div>
+                  <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)', marginTop: '3px' }}>
+                    {formatDate(selectedEvent.date).month} {formatDate(selectedEvent.date).year}
+                  </div>
+                </div>
+                <div>
+                  <div style={{ display: 'inline-block', padding: '3px 12px', marginBottom: '6px', background: categoryColors[selectedEvent.category], border: `1px solid ${categoryBorders[selectedEvent.category]}`, fontFamily: 'Cinzel, serif', fontSize: '0.58rem', letterSpacing: '0.18em', color: 'var(--gold)' }}>
+                    {selectedEvent.category}
+                  </div>
+                  <h2 style={{ color: 'var(--text)', fontSize: '1.6rem', lineHeight: 1.2 }}>{selectedEvent.title}</h2>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ padding: '2rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+                {[
+                  { icon: '📅', label: 'Date', value: formatDate(selectedEvent.date).full },
+                  { icon: '🕐', label: 'Time', value: selectedEvent.time },
+                  { icon: '📍', label: 'Venue', value: selectedEvent.venue },
+                  { icon: '🎭', label: 'Category', value: selectedEvent.category },
+                ].map((item) => (
+                  <div key={item.label} style={{ padding: '1rem', background: 'var(--deep)', border: '1px solid var(--border)' }}>
+                    <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.58rem', letterSpacing: '0.2em', color: 'var(--gold)', marginBottom: '5px' }}>
+                      {item.icon} {item.label.toUpperCase()}
+                    </div>
+                    <div style={{ color: 'var(--text)', fontSize: '0.9rem', lineHeight: 1.5 }}>{item.value}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ marginBottom: '2rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                  <div style={{ width: '20px', height: '1px', background: 'var(--gold)' }} />
+                  <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.62rem', letterSpacing: '0.3em', color: 'var(--gold)' }}>ABOUT THIS EVENT</span>
+                </div>
+                <p style={{ color: 'var(--muted)', lineHeight: 1.9, fontSize: '1rem', fontStyle: 'italic' }}>
+                  {selectedEvent.description}
+                </p>
+              </div>
+
+              {selectedEvent.ticketsAvailable ? (
+                <div style={{ padding: '1.5rem', background: 'rgba(201,168,76,0.05)', border: '1px solid rgba(201,168,76,0.25)', marginBottom: '1rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+                    <div>
+                      <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.2em', color: 'var(--gold)', marginBottom: '4px' }}>
+                        🎟 TICKETS AVAILABLE
+                      </div>
+                      <p style={{ color: 'var(--muted)', fontSize: '0.85rem', fontStyle: 'italic' }}>
+                        Secure your seat via TickeTora
+                      </p>
+                    </div>
+                    <TicketLink
+                      url={selectedEvent.ticketUrl}
+                      style={{ padding: '0.85rem 2.5rem', background: 'var(--gold)', color: 'var(--deep)', textDecoration: 'none', fontFamily: 'Cinzel, serif', fontSize: '0.72rem', letterSpacing: '0.2em', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.3s' }}
+                    >
+                      🎟 Buy Tickets on TickeTora →
+                    </TicketLink>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ padding: '1.25rem 1.5rem', background: 'rgba(76,201,130,0.05)', border: '1px solid rgba(76,201,130,0.2)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <span style={{ fontSize: '1.5rem' }}>🙌</span>
+                  <div>
+                    <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(76,201,130,0.8)', marginBottom: '3px' }}>
+                      FREE ENTRY
+                    </div>
+                    <p style={{ color: 'var(--muted)', fontSize: '0.85rem', fontStyle: 'italic' }}>
+                      This event is free and open to everyone. Just come as you are!
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
 
       <style>{`
-        @media (max-width: 900px) {
-          .contact-grid { grid-template-columns: 1fr !important; }
-        }
-        @media (max-width: 600px) {
-          .form-row { grid-template-columns: 1fr !important; }
+        @media (max-width: 768px) {
+          .event-row { grid-template-columns: 80px 1fr !important; }
+          .event-row > div:last-child { display: none !important; }
           .footer-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
