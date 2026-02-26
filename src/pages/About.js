@@ -478,7 +478,7 @@ export default function About() {
           <div className="gold-line" style={{ marginBottom: '1.5rem' }} />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
             <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)' }}>
-              © 2026 SANCTIFIED GOSPEL MUSIC GROUP · ALL RIGHTS RESERVED
+              © 2026 SANCTIFIED MUSIC · ALL RIGHTS RESERVED
             </p>
             <p style={{ fontSize: '0.75rem', color: 'var(--muted)', fontStyle: 'italic' }}>
               Designed & maintained by{' '}

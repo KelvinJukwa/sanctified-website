@@ -416,7 +416,7 @@ export default function Home() {
                 color: 'var(--gold)', letterSpacing: '0.25em', fontWeight: 700
               }}>SANCTIFIED</div>
               <div style={{ fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>
-                GOSPEL MUSIC GROUP
+                MUSIC 
               </div>
             </div>
             <div className="gold-line" />
@@ -448,7 +448,7 @@ export default function Home() {
             flexWrap: 'wrap', gap: '0.75rem'
           }}>
             <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)' }}>
-              © 2026 SANCTIFIED GOSPEL MUSIC GROUP · ALL RIGHTS RESERVED
+              © 2026 SANCTIFIED MUSIC  · ALL RIGHTS RESERVED
             </p>
             <p style={{ fontSize: '0.75rem', color: 'var(--muted)', fontStyle: 'italic' }}>
               Designed & maintained by{' '}
