@@ -66,7 +66,6 @@ export default function Home() {
           position: 'absolute', inset: 0,
           backgroundImage: `url(${slide.image})`,
           backgroundSize: 'cover', backgroundPosition: 'center 30%',
-          transition: 'opacity 0.8s ease',
           opacity: animating ? 1 : 0,
           transform: animating ? 'scale(1)' : 'scale(1.03)',
           transition: 'opacity 0.6s ease, transform 6s ease'

@@ -16,12 +16,6 @@ export default function Events() {
     setForm({ title: '', date: '', time: '', venue: '', description: '' });
     setShowForm(false);
   };
-
-  const formatDate = (dateStr) => {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  };
-
   const fields = [
     { key: 'title', label: 'Event Title', type: 'text' },
     { key: 'date', label: 'Date', type: 'date' },
