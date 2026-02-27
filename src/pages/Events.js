@@ -81,7 +81,7 @@ const events = [
   },
 ];
 
-const categories = ['All', 'Concert', 'Rally', 'Outreach', 'Worship Night'];
+const categories = ['All', 'Concert', 'Church Service', 'Outreach', 'Worship Night'];
 
 const categoryColors = {
   Concert: 'rgba(201,168,76,0.15)',
@@ -135,7 +135,7 @@ function Footer() {
               SANCTIFIED
             </div>
             <div style={{ fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>
-              GOSPEL MUSIC GROUP
+               ACAPELLA
             </div>
           </div>
           <div className="gold-line" />
@@ -152,7 +152,7 @@ function Footer() {
         <div className="gold-line" style={{ marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)' }}>
-            © 2026 SANCTIFIED MUSIC  · ALL RIGHTS RESERVED
+            © 2026 SANCTIFIED ACAPELLA  · ALL RIGHTS RESERVED
           </p>
           <p style={{ fontSize: '0.75rem', color: 'var(--muted)', fontStyle: 'italic' }}>
             Designed & maintained by{' '}

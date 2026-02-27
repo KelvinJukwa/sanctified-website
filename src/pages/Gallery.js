@@ -3,9 +3,9 @@ import { useState } from 'react';
 const albums = [
   {
     id: 1,
-    event: 'Easter Praise Concert',
-    date: 'April 4, 2025',
-    venue: 'Central SDA Church, Harare',
+    event: 'Fine Linen Album Launch',
+    date: 'November 20, 2025',
+    venue: 'Chinhoyi University, Chinhoyi',
     cover: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80',
     photos: [
       { id: 1, url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80', caption: 'Opening Worship' },
@@ -440,7 +440,7 @@ export default function Gallery() {
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
             <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)' }}>
-              © 2026 SANCTIFIED MUSIC  · ALL RIGHTS RESERVED
+              © 2026 SANCTIFIED ACAPELLA  · ALL RIGHTS RESERVED
             </p>
             <p style={{ fontSize: '0.75rem', color: 'var(--muted)', fontStyle: 'italic' }}>
               Designed & maintained by{' '}

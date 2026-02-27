@@ -24,7 +24,7 @@ const members = [
   {
     name: 'Kudakwashe Magodo',
     nickname: 'The Basser',
-    role: 'Bass & Music Director',
+    role: 'Bassist & Music Director',
     image: '/kuda.png',
     background: 'Kuda started singing Bass  at age 5 and was self-taught until age 12. He went on to formally study music theory and now arranges all of Sanctified\'s original compositions.',
     values: 'Discipline, creativity, and collaborative excellence.',
@@ -34,7 +34,7 @@ const members = [
   {
     name: 'Tanaka Victor Mangisi',
     nickname: 'Bass B',
-    role: 'Bassist',
+    role: 'Bass',
     image: '/Tanaka.png',
     background: 'Tanaka taught himself bass guitar at 16 using YouTube tutorials. Within two years he was playing professionally at church events across Harare.',
     values: 'Consistency, loyalty, and showing up — even when no one is watching.',
@@ -75,7 +75,7 @@ const members = [
     name: 'Bredon',
     nickname: 'Elder',
     role: 'Tenor Vocalist',
-    image: '/brendon',
+    image: '/brendon.jpeg',
     background: 'Brendon discovered his tenor voice during a school play at age 14. His drama teacher encouraged him to join the church choir and the rest is history.',
     values: 'Courage, perseverance, and using every talent for God\'s glory.',
     interests: 'Theatre, hiking, photography, and learning new languages.',
@@ -110,6 +110,16 @@ const members = [
     values: 'Expression, freedom in worship, and the power of the body as an instrument of praise.',
     interests: 'Dance, fashion, motivational speaking, and community outreach.',
     funFact: 'Sibo choreographed the group\'s most popular performance in just one afternoon.',
+  },
+    {
+    name: 'Tanyaradzwa Gwarada',
+    nickname: 'Tete veOrder',
+    role: 'Vocalist',
+    image: '/tanya.jpeg', 
+    background: 'Tanya brings movement and life to the stage. She trained in contemporary dance for 6 years before joining Sanctified and now choreographs all the group\'s stage performances.',
+    values: 'Expression, freedom in worship, and the power of the body as an instrument of praise.',
+    interests: 'Dance, fashion, motivational speaking, and community outreach.',
+    funFact: 'Tanya choreographed the group\'s most popular performance in just one afternoon.',
   },
 ];
 
@@ -148,7 +158,7 @@ export default function About() {
           maxWidth: '650px', margin: '0 auto', color: 'var(--muted)',
           fontStyle: 'italic', fontSize: '1.15rem', lineHeight: 2
         }}>
-          Born in Harare, Zimbabwe — united by one purpose: to glorify Christ through the divine gift of song.
+         Born at Ruya Adventist High School — united by one purpose: to glorify Christ through the divine gift of song.
         </p>
       </section>
 
@@ -165,14 +175,22 @@ export default function About() {
             </h2>
             <div className="gold-line-left" style={{ marginBottom: '2rem', maxWidth: '80px' }} />
             <p style={{ color: 'var(--muted)', lineHeight: 2.1, fontSize: '1.05rem', marginBottom: '1.2rem', fontStyle: 'italic' }}>
-              Sanctified was formed in 2018 when a group of young Adventists in Harare felt a 
-              strong calling to minister through music. What began as a small choir quickly 
-              grew into a full gospel group with a heart for evangelism.
+              Sanctified Acapella is a vibrant and spiritually grounded gospel singing group that was given life at 
+              Ruya Adventist High School in 2018. Born out of a passion for harmonious worship and musical excellence, 
+              the group began as a platform for nurturing young talent and spreading the gospel through a cappella music.
             </p>
             <p style={{ color: 'var(--muted)', lineHeight: 2, fontSize: '1rem' }}>
-              Over the years we have performed at camp meetings, youth rallies, church 
-              anniversaries, and community outreach events across Zimbabwe — always with 
-              the same mission: to lift the name of Jesus and draw hearts closer to Him.
+              Now based at Chinhoyi University of Technology, Sanctified Acapella operates as a dynamic mixed group, 
+              bringing together diverse voices united by faith and purpose. 
+              The transition to a university setting has expanded its influence, 
+              allowing it to minister to wider audiences while continuing to shape disciplined, 
+              spiritually committed musicians.
+            </p>
+             <p style={{ color: 'var(--muted)', lineHeight: 2, fontSize: '1rem' }}>
+              Sanctified Acapella has grown into a powerful musical movement. Over the years, 
+              it has successfully groomed and produced outstanding musicians who have gone on to 
+              sing with top-tier gospel ensembles such as The Vine, a testament to the group’s 
+              strong musical foundation and commitment to excellence.
             </p>
           </div>
 
@@ -471,14 +489,14 @@ export default function About() {
             <div className="gold-line" />
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontFamily: 'Cinzel, serif', fontSize: '1.1rem', color: 'var(--gold)', letterSpacing: '0.25em', fontWeight: 700 }}>SANCTIFIED</div>
-              <div style={{ fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>GOSPEL MUSIC GROUP</div>
+              <div style={{ fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>ACAPELLA</div>
             </div>
             <div className="gold-line" />
           </div>
           <div className="gold-line" style={{ marginBottom: '1.5rem' }} />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
             <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)' }}>
-              © 2026 SANCTIFIED MUSIC · ALL RIGHTS RESERVED
+              © 2026 SANCTIFIED ACAPELLA · ALL RIGHTS RESERVED
             </p>
             <p style={{ fontSize: '0.75rem', color: 'var(--muted)', fontStyle: 'italic' }}>
               Designed & maintained by{' '}

@@ -4,22 +4,22 @@ import { Link } from 'react-router-dom';
 const heroSlides = [
   {
     image: '/aka.png',
-    label: 'Worship Night 2024',
+    label: 'Meet Akatendeka',
     subtitle: 'Lifting voices in praise'
   },
   {
     image: 'fadzi.jpeg',
-    label: 'Annual Concert',
+    label: 'Meet Fadzie',
     subtitle: 'Spreading the Gospel through music'
   },
   {
     image: 'clive.png',
-    label: 'In The Studio',
+    label: 'Meets Clive',
     subtitle: 'Creating music for His glory'
   },
   {
     image: 'joina.jpeg',
-    label: 'Youth Rally',
+    label: 'Meet Joina',
     subtitle: 'Reaching the next generation'
   },
 ];
@@ -106,7 +106,7 @@ export default function Home() {
 
           {/* Main Title */}
           <h1 style={{
-            fontSize: 'clamp(4rem, 12vw, 9rem)', fontWeight: 900,
+            fontSize: 'clamp(4rem, 12vw, 9rem)', fontWeight: 800,
             color: 'var(--text)', lineHeight: 0.9, letterSpacing: '0.05em',
             marginBottom: '0.5rem',
             opacity: animating ? 1 : 0,
@@ -254,22 +254,23 @@ export default function Home() {
               color: 'var(--muted)', lineHeight: 2.1, fontSize: '1.1rem',
               marginBottom: '1.2rem', fontStyle: 'italic'
             }}>
-              Sanctified was born in Harare, Zimbabwe from a deep conviction that music is one 
-              of God's most powerful tools for reaching hearts. We are a Seventh-day Adventist 
-              gospel group united by faith, passion, and purpose.
+             Sanctified Acapella is a vibrant and spiritually grounded gospel singing group that was given 
+             life at Ruya Adventist High School. Born out of a passion for harmonious worship and musical excellence, 
+             the group began as a platform for nurturing young talent and spreading the gospel through a cappella music.
+
             </p>
 
             <p style={{
               color: 'var(--muted)', lineHeight: 2, fontSize: '1rem',
               marginBottom: '2.5rem'
             }}>
-              From local churches to national camp meetings, we bring the message of hope 
-              and salvation through every song we sing.
+              With a rich heritage rooted in Adventist education and a vision anchored in worship, 
+              Sanctified Acapella continues to inspire, uplift, and sanctify hearts through the power of harmonious praise.
             </p>
 
             {/* Stats Row */}
             <div style={{ display: 'flex', gap: '2.5rem', marginBottom: '2.5rem' }}>
-              {[{ n: '50+', l: 'Programs' }, { n: '10+', l: 'Songs' }, { n: '12', l: 'Members' }].map(s => (
+              {[{ n: '30+', l: 'Programs' }, { n: '10+', l: 'Songs' }, { n: '12', l: 'Members' }].map(s => (
                 <div key={s.l}>
                   <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--gold)', lineHeight: 1 }}>{s.n}</div>
                   <div style={{ fontSize: '0.65rem', letterSpacing: '0.25em', color: 'var(--muted)', marginTop: '4px', fontFamily: 'Cinzel, serif' }}>{s.l}</div>
@@ -305,12 +306,11 @@ export default function Home() {
             fontStyle: 'italic', fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
             color: 'var(--text)', lineHeight: 1.9, margin: '0.5rem 0 1.5rem'
           }}>
-            Praise him with the sounding of the trumpet, praise him with the harp and lyre,
-            praise him with timbrel and dancing.
+            Let every thing that hath breath praise the lord. Praise the Lord.
           </p>
           <div className="gold-line" style={{ maxWidth: '120px', margin: '0 auto 1rem' }} />
           <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.4em', color: 'var(--gold)' }}>
-            PSALM 150:3–4
+            PSALM 150:6
           </span>
         </div>
       </section>
@@ -416,7 +416,7 @@ export default function Home() {
                 color: 'var(--gold)', letterSpacing: '0.25em', fontWeight: 700
               }}>SANCTIFIED</div>
               <div style={{ fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>
-                MUSIC 
+                ACAPELLA 
               </div>
             </div>
             <div className="gold-line" />
@@ -448,7 +448,7 @@ export default function Home() {
             flexWrap: 'wrap', gap: '0.75rem'
           }}>
             <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)' }}>
-              © 2026 SANCTIFIED MUSIC  · ALL RIGHTS RESERVED
+              © 2026 SANCTIFIED ACAPELLA  · ALL RIGHTS RESERVED
             </p>
             <p style={{ fontSize: '0.75rem', color: 'var(--muted)', fontStyle: 'italic' }}>
               Designed & maintained by{' '}

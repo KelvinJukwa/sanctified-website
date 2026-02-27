@@ -28,7 +28,7 @@ function Footer() {
         <div className="gold-line" style={{ marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
           <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)' }}>
-            © 2026 SANCTIFIED MUSIC · ALL RIGHTS RESERVED
+            © 2026 SANCTIFIED ACAPELLA · ALL RIGHTS RESERVED
           </p>
           <p style={{ fontSize: '0.75rem', color: 'var(--muted)', fontStyle: 'italic' }}>
             Designed & maintained by{' '}
@@ -49,8 +49,8 @@ const contactDetails = [
   {
     icon: '📞',
     label: 'Phone',
-    lines: ['+263 77 123 4567', '+263 71 987 6543'],
-    sub: 'Mon – Sat, 8am – 8pm',
+    lines: ['+263 78 638 9330', '+263 77 458 0779'],
+    sub: 'Sun – Fri, 8am – 8pm',
   },
   {
     icon: '📧',
@@ -61,21 +61,22 @@ const contactDetails = [
   {
     icon: '📍',
     label: 'Location',
-    lines: ['Harare, Zimbabwe'],
+    lines: ['Chinhoyi University Of Technology, Zimbabwe'],
     sub: 'Seventh-day Adventist Gospel Group',
   },
   {
     icon: '🎵',
     label: 'Booking',
-    lines: ['+263 77 123 4567'],
-    sub: 'For event bookings & performances',
+    lines: ['+263 77 458 0779'],
+    sub: 'For Invitations',
   },
 ];
 
 const socials = [
-  { label: 'Facebook', icon: 'f', url: 'https://facebook.com/sanctifiedgospel', color: 'rgba(66,103,178,0.8)' },
-  { label: 'Instagram', icon: '✦', url: 'https://instagram.com/sanctifiedgospel', color: 'rgba(193,53,132,0.8)' },
-  { label: 'YouTube', icon: '▶', url: 'https://youtube.com/@sanctifiedgospel', color: 'rgba(255,0,0,0.8)' },
+  { label: 'Facebook', icon: 'f', url: 'https://www.facebook.com/share/1Ag61eRsK8/', color: 'rgba(66,103,178,0.8)' },
+  { label: 'Instagram', icon: '✦', url: 'https://www.instagram.com/sanctifiedacapella?igsh=MW9xbWprdWdyZzRwYQ==', color: 'rgba(193,53,132,0.8)' },
+  { label: 'YouTube', icon: '▶', url: 'https://youtube.com/@sanctifiedacapella-v9n?si=QevcbodQt4mKqIXZ', color: 'rgba(255,0,0,0.8)' },
+  { label: 'TikTok', icon: '♪', url: 'https://www.tiktok.com/@sanctifiedacapella?_r=1&_t=ZS-94FgJLb1bjl', color: 'rgba(255,255,255,0.8)' },
   { label: 'WhatsApp', icon: '✉', url: 'https://wa.me/263771234567', color: 'rgba(37,211,102,0.8)' },
 ];
 
@@ -194,7 +195,7 @@ export default function Contact() {
                 <div style={{ fontSize: '3rem', color: 'var(--gold)', marginBottom: '1rem', fontFamily: 'Cinzel, serif' }}>✦</div>
                 <h3 style={{ color: 'var(--gold)', fontSize: '1.5rem', marginBottom: '1rem' }}>Message Received!</h3>
                 <p style={{ color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.8, marginBottom: '2rem' }}>
-                  Thank you for reaching out to Sanctified. We will get back to you within 24 hours. God bless you!
+                  Thank you for reaching out to Sanctified acapella. We will get back to you within 24 hours. God bless you!
                 </p>
                 <button
                   onClick={() => setSent(false)}
@@ -262,7 +263,7 @@ export default function Contact() {
                       onBlur={(e) => (e.target.style.borderColor = 'rgba(201,168,76,0.2)')}
                     >
                       <option value="" style={{ background: 'var(--deep)' }}>Select a subject</option>
-                      <option value="Booking" style={{ background: 'var(--deep)' }}>Event Booking</option>
+                      <option value="Booking" style={{ background: 'var(--deep)' }}>Program Booking</option>
                       <option value="Collaboration" style={{ background: 'var(--deep)' }}>Collaboration</option>
                       <option value="General" style={{ background: 'var(--deep)' }}>General Inquiry</option>
                       <option value="Media" style={{ background: 'var(--deep)' }}>Media & Press</option>
@@ -312,7 +313,7 @@ export default function Contact() {
               {/* Phone Numbers */}
               <div style={{ marginBottom: '1.5rem' }}>
                 <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)', marginBottom: '0.75rem' }}>📞 PHONE</div>
-                {['+263 77 123 4567', '+263 71 987 6543', '+263 78 456 7890'].map((num) => (
+                {['+263 458 0779', '+263 78 638 9330', '+263 78 108 0186'].map((num) => (
                   <a
                     key={num}
                     href={`tel:${num.replace(/\s/g, '')}`}
@@ -388,7 +389,8 @@ export default function Contact() {
             <div style={{ background: 'rgba(201,168,76,0.05)', border: '1px solid rgba(201,168,76,0.2)', padding: '1.75rem', textAlign: 'center' }}>
               <div style={{ fontSize: '2rem', color: 'var(--gold)', opacity: 0.25, fontFamily: 'Cinzel, serif', lineHeight: 1, marginBottom: '0.5rem' }}>"</div>
               <p style={{ fontStyle: 'italic', fontSize: '0.95rem', color: 'var(--text)', lineHeight: 1.8, marginBottom: '1rem' }}>
-                How beautiful are the feet of those who bring good news!
+                And how shall they preach, except they be sent? as it is written, How beautiful are the feet of them that preach the gospel of peace,
+                and bring glad tidings of good Things!
               </p>
               <div className="gold-line" style={{ margin: '0 auto 0.75rem', maxWidth: '60px' }} />
               <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--gold)' }}>

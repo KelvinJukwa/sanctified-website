@@ -59,7 +59,7 @@ export default function Navbar() {
               letterSpacing: '0.35em', fontFamily: 'Crimson Pro, serif',
               marginTop: '3px'
             }}>
-              MUSIC
+              ACAPELLA
             </div>
           </div>
         </Link>

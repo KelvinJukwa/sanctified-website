@@ -3,35 +3,28 @@ import { useState } from 'react';
 const videos = [
   {
     id: 1,
-    title: 'Amazing Grace',
-    url: 'https://www.youtube.com/embed/CDdvReNKKuk',
-    description: 'Live worship session',
-    category: 'Live Performance'
+    title: ' Heaven (Official Debut Song)',
+    url: 'https://youtu.be/R6HcyoExHok?si=sRAwJXcNEIpgjEoi',
+    description: 'Official Debut Song',
+    category: 'Songs'
   },
   {
     id: 2,
-    title: 'Great Is Thy Faithfulness',
-    url: 'https://www.youtube.com/embed/6B9FBaHPNyg',
-    description: 'Sunday service recording',
+    title: 'OH How I Long (hymn)',
+    url: 'https://youtu.be/WhSQP5JmnZY?si=ID8tb9jgk0DkXbei',
+    description: 'Practice Session',
     category: 'Worship'
   },
   {
     id: 3,
-    title: 'How Great Thou Art',
-    url: 'https://www.youtube.com/embed/ixaJBH5DRPA',
-    description: 'Annual concert 2024',
-    category: 'Concert'
-  },
-  {
-    id: 4,
-    title: 'Blessed Assurance',
-    url: 'https://www.youtube.com/embed/8GMAqFBnFpI',
-    description: 'Youth camp performance',
+    title: 'Jesu Anoti',
+    url: 'https://youtu.be/nJN4u3PUcIw?si=hlgrJerZy8drp1NC',
+    description: 'Live at Eastlea Church Harare',
     category: 'Live Performance'
   },
 ];
 
-const categories = ['All', 'Live Performance', 'Worship', 'Concert'];
+const categories = ['All', 'Live Performance', 'Worship', 'Songs'];
 
 export default function Videos() {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -330,7 +323,7 @@ export default function Videos() {
                 color: 'var(--gold)', letterSpacing: '0.25em', fontWeight: 700
               }}>SANCTIFIED</div>
               <div style={{ fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>
-                MUSIC 
+                ACAPELLA 
               </div>
             </div>
             <div className="gold-line" />
