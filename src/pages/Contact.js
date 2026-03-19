@@ -77,7 +77,7 @@ const socials = [
   { label: 'Instagram', icon: '✦', url: 'https://www.instagram.com/sanctifiedacapella?igsh=MW9xbWprdWdyZzRwYQ==', color: 'rgba(193,53,132,0.8)' },
   { label: 'YouTube', icon: '▶', url: 'https://youtube.com/@sanctifiedacapella-v9n?si=QevcbodQt4mKqIXZ', color: 'rgba(255,0,0,0.8)' },
   { label: 'TikTok', icon: '♪', url: 'https://www.tiktok.com/@sanctifiedacapella?_r=1&_t=ZS-94FgJLb1bjl', color: 'rgba(255,255,255,0.8)' },
-  { label: 'WhatsApp', icon: '✉', url: 'https://wa.me/263771234567', color: 'rgba(37,211,102,0.8)' },
+  { label: 'WhatsApp', icon: '✉', url: 'https://wa.me/message/J7UCMPRHJCP4I1', color: 'rgba(37,211,102,0.8)' },
 ];
 
 export default function Contact() {
@@ -313,7 +313,7 @@ export default function Contact() {
               {/* Phone Numbers */}
               <div style={{ marginBottom: '1.5rem' }}>
                 <div style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)', marginBottom: '0.75rem' }}>📞 PHONE</div>
-                {['+263 458 0779', '+263 78 638 9330', '+263 78 108 0186'].map((num) => (
+                {['+263 77 458 0779', '+263 78 638 9330', '+263 78 108 0186'].map((num) => (
                   <a
                     key={num}
                     href={`tel:${num.replace(/\s/g, '')}`}
@@ -345,7 +345,7 @@ export default function Contact() {
 
               {/* WhatsApp CTA */}
               <a
-                href="https://wa.me/263771234567"
+                href="https://wa.me/message/J7UCMPRHJCP4I1"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', padding: '0.85rem', background: 'rgba(37,211,102,0.12)', border: '1px solid rgba(37,211,102,0.35)', color: 'rgba(37,211,102,0.9)', textDecoration: 'none', fontFamily: 'Cinzel, serif', fontSize: '0.68rem', letterSpacing: '0.2em', transition: 'all 0.3s' }}
