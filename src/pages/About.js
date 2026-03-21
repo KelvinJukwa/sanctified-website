@@ -2,14 +2,14 @@ import { useState } from 'react';
 
 const members = [
   {
-    name: 'Akatendeka Muvhuti',
-    nickname: 'Classic Man',
-    role: 'Tenor & Lead Vocalist',
+    name: 'Akatendeka T Muvhuti',
+    nickname: 'AKA Classic Man',
+    role: 'Tenor &',
     image: '/aka.png',
-    background: 'Akatendeka grew up singing in the Harare Central SDA Church choir from age 7. He studied music at the Zimbabwe College of Music and has been leading worship for over 10 years.',
-    values: 'Integrity, humility, and putting God first in everything. Tendai believes that music without purpose is just noise.',
-    interests: 'Song writing, mentoring young singers, hiking, and reading theology books.',
-    funFact: 'Akatendeka once sang at a wedding where the power went out — he kept going acapella and got a standing ovation!',
+    background: 'Marondera was the place of birth and grew up in Mutare then at the age of 10, Akatendeka started to be interested in acapella music, singing lead tenor in church and school groups. After singing in various groups and choirs he finally learned to sing and direct all parts of a mixed group.',
+    values: 'Composure, kindness, goal-oriented, strict, ambitious,  optimistic, caring and amicable',
+    interests: 'Song and part rearrangement, farming, graphics, painting and all social activities ',
+    funFact: 'Belting out tunes in the shower and splendid creation of negative harmonies',
   },
   {
     name: 'Rumbidzai Happiness Mafuta',
@@ -44,7 +44,7 @@ const members = [
   {
     name: 'Tinokarira Muzamhindo',
     nickname: 'Wasu',
-    role: 'Alto Vocalist',
+    role: 'Alto ',
     image: '/tino.jpeg',
     background: 'Tino was Born and raised in Mutare (Wasu) and she has Passion about entrepreneurship',
     values: 'God first, Personal growth, Chasing ambition, Authenticity, Simplicity – because simplicity is the essence of beauty ',
@@ -64,7 +64,7 @@ const members = [
   {
     name: 'Runyararo Valene Busu',
     nickname: 'Chips',
-    role: 'Soprano Vocalist',
+    role: 'Soprano ',
     image: '/runya.jpeg',
     background: 'Runya grew up in Bulawayo and moved to Harare to study nursing. She joined Sanctified through a mutual friend and quickly became one of the group\'s brightest voices.',
     values: 'Joy, service, and spreading positivity wherever she goes.',
@@ -74,7 +74,7 @@ const members = [
   {
     name: 'Bredon',
     nickname: 'Elder',
-    role: 'Tenor Vocalist',
+    role: 'Tenor ',
     image: '/brendon.jpeg',
     background: 'Brendon discovered his tenor voice during a school play at age 14. His drama teacher encouraged him to join the church choir and the rest is history.',
     values: 'Courage, perseverance, and using every talent for God\'s glory.',
@@ -102,8 +102,8 @@ const members = [
     funFact: 'Joina has a love and hate relationship with avocados, and has always been like that since her childhood according to her father She is a huge fan of sleep ASMR and chicken burgers . Some wonder why she would love chicken burgers but absolutely hate beef burgers, interesting!!',
   },
   {
-    name: 'Sibongile Mangwana', 
-    nickname: 'Tete veOrder',
+    name: 'Sibongile Nyampila', 
+    nickname: '#MHAMHA',
     role: 'Vocalist',
     image: '/sibo.jpeg',
     background: 'Sibo brings movement and life to the stage. She trained in contemporary dance for 6 years before joining Sanctified and now choreographs all the group\'s stage performances.',
