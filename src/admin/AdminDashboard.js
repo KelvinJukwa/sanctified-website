@@ -127,27 +127,19 @@ function AdminInvite() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
-  const [admins, setAdmins] = useState([]);
-
-  useEffect(() => { fetchAdmins(); }, []);
 
   const showMsg = (text, type = 'success') => {
     setMessage({ text, type });
     setTimeout(() => setMessage({ text: '', type: '' }), 4000);
   };
 
-  const fetchAdmins = async () => {
-    const { data, error } = await supabase.auth.admin?.listUsers?.() || {};
-    if (data?.users) setAdmins(data.users);
-  };
-
   const inviteAdmin = async () => {
     if (!email || !password) { showMsg('Please enter email and password', 'error'); return; }
     if (password.length < 6) { showMsg('Password must be at least 6 characters', 'error'); return; }
     setLoading(true);
-    const { error } = await supabase.auth.signUp({ email, password });
-    if (error) {
-      showMsg(error.message, 'error');
+    const { error: signUpError } = await supabase.auth.signUp({ email, password });
+    if (signUpError) {
+      showMsg(signUpError.message, 'error');
     } else {
       showMsg(`Admin account created for ${email}! They can now log in.`);
       setEmail('');
