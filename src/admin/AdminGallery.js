@@ -16,7 +16,7 @@ export default function AdminGallery() {
 
   const showMessage = (text, type = 'success') => {
     setMessage({ text, type });
-    setTimeout(() => setMessage({ text: '', type: '' }), 3000);
+    setTimeout(() => setMessage({ text: '', type: '' }), 4000);
   };
 
   const fetchAlbums = async () => {
@@ -34,7 +34,7 @@ export default function AdminGallery() {
   const createAlbum = async () => {
     if (!albumForm.event || !albumForm.date || !albumForm.venue) { showMessage('Please fill all fields', 'error'); return; }
     const { error } = await supabase.from('albums').insert([albumForm]);
-    if (error) { showMessage('Error creating album', 'error'); return; }
+    if (error) { showMessage('Error creating album: ' + error.message, 'error'); return; }
     showMessage('Album created successfully!');
     setAlbumForm({ event: '', date: '', venue: '' });
     setShowAlbumForm(false);
@@ -54,26 +54,65 @@ export default function AdminGallery() {
     if (!files.length || !selectedAlbum) return;
     setUploading(true);
 
+    let successCount = 0;
+
     for (const file of files) {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-      const filePath = `gallery/${selectedAlbum.id}/${fileName}`;
+      try {
+        const fileExt = file.name.split('.').pop().toLowerCase();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+        const filePath = `gallery/${selectedAlbum.id}/${fileName}`;
 
-      const { error: uploadError } = await supabase.storage.from('sanctified-media').upload(filePath, file);
-      if (uploadError) { showMessage(`Error uploading ${file.name}`, 'error'); continue; }
+        // Step 1: Upload file to storage
+        const { error: uploadError } = await supabase.storage
+          .from('sanctified-media')
+          .upload(filePath, file, { upsert: false });
 
-      const { data: { publicUrl } } = supabase.storage.from('sanctified-media').getPublicUrl(filePath);
+        if (uploadError) {
+          showMessage(`Upload failed: ${uploadError.message}`, 'error');
+          continue;
+        }
 
-      await supabase.from('photos').insert([{ album_id: selectedAlbum.id, url: publicUrl, caption: file.name.replace(/\.[^/.]+$/, '') }]);
+        // Step 2: Get public URL - using correct method
+        const { data: urlData } = supabase.storage
+          .from('sanctified-media')
+          .getPublicUrl(filePath);
 
-      // Set as cover if first photo
-      if (!selectedAlbum.cover_url) {
-        await supabase.from('albums').update({ cover_url: publicUrl }).eq('id', selectedAlbum.id);
-        setSelectedAlbum({ ...selectedAlbum, cover_url: publicUrl });
+        const publicUrl = urlData?.publicUrl;
+
+        if (!publicUrl) {
+          showMessage('Could not get public URL for ' + file.name, 'error');
+          continue;
+        }
+
+        // Step 3: Save to photos table
+        const { error: dbError } = await supabase.from('photos').insert([{
+          album_id: selectedAlbum.id,
+          url: publicUrl,
+          caption: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')
+        }]);
+
+        if (dbError) {
+          showMessage(`DB save failed: ${dbError.message}`, 'error');
+          continue;
+        }
+
+        // Step 4: Set as cover if this is the first photo
+        if (!selectedAlbum.cover_url) {
+          await supabase.from('albums').update({ cover_url: publicUrl }).eq('id', selectedAlbum.id);
+          setSelectedAlbum(prev => ({ ...prev, cover_url: publicUrl }));
+        }
+
+        successCount++;
+
+      } catch (err) {
+        showMessage(`Unexpected error: ${err.message}`, 'error');
       }
     }
 
-    showMessage(`${files.length} photo(s) uploaded!`);
+    if (successCount > 0) {
+      showMessage(`${successCount} photo(s) uploaded successfully!`);
+    }
+
     setUploading(false);
     fetchPhotos(selectedAlbum.id);
     fetchAlbums();
@@ -95,7 +134,7 @@ export default function AdminGallery() {
   const deletePhoto = async (photo) => {
     if (!window.confirm('Delete this photo?')) return;
     const path = photo.url.split('/sanctified-media/')[1];
-    await supabase.storage.from('sanctified-media').remove([path]);
+    if (path) await supabase.storage.from('sanctified-media').remove([path]);
     await supabase.from('photos').delete().eq('id', photo.id);
     showMessage('Photo deleted');
     fetchPhotos(selectedAlbum.id);
@@ -108,7 +147,7 @@ export default function AdminGallery() {
     <div>
       {/* Message Toast */}
       {message.text && (
-        <div style={{ position: 'fixed', top: '1.5rem', right: '1.5rem', zIndex: 1000, padding: '0.85rem 1.5rem', background: message.type === 'error' ? 'rgba(220,80,80,0.15)' : 'rgba(76,201,130,0.15)', border: `1px solid ${message.type === 'error' ? 'rgba(220,80,80,0.4)' : 'rgba(76,201,130,0.4)'}`, color: message.type === 'error' ? 'rgba(220,80,80,0.9)' : 'rgba(76,201,130,0.9)', fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.15em' }}>
+        <div style={{ position: 'fixed', top: '1.5rem', right: '1.5rem', zIndex: 1000, padding: '0.85rem 1.5rem', background: message.type === 'error' ? 'rgba(220,80,80,0.15)' : 'rgba(76,201,130,0.15)', border: `1px solid ${message.type === 'error' ? 'rgba(220,80,80,0.4)' : 'rgba(76,201,130,0.4)'}`, color: message.type === 'error' ? 'rgba(220,80,80,0.9)' : 'rgba(76,201,130,0.9)', fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.15em', maxWidth: '400px' }}>
           {message.text}
         </div>
       )}
@@ -154,7 +193,6 @@ export default function AdminGallery() {
                 <div key={album.id} style={{ background: 'var(--card)', border: '1px solid var(--border)', overflow: 'hidden', transition: 'border-color 0.3s' }}
                   onMouseOver={(e) => (e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)')}
                   onMouseOut={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}>
-                  {/* Cover */}
                   <div style={{ position: 'relative', paddingBottom: '55%', background: 'var(--deep)', overflow: 'hidden' }}>
                     {album.cover_url ? (
                       <img src={album.cover_url} alt={album.event} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -162,7 +200,6 @@ export default function AdminGallery() {
                       <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--muted)', fontStyle: 'italic', fontSize: '0.85rem' }}>No cover photo</div>
                     )}
                   </div>
-                  {/* Info */}
                   <div style={{ padding: '1.25rem', borderTop: '2px solid var(--gold)' }}>
                     <h3 style={{ color: 'var(--text)', fontSize: '1rem', marginBottom: '0.4rem' }}>{album.event}</h3>
                     <p style={{ color: 'var(--muted)', fontSize: '0.82rem', marginBottom: '0.25rem' }}>📅 {album.date}</p>
@@ -176,6 +213,11 @@ export default function AdminGallery() {
                   </div>
                 </div>
               ))}
+              {albums.length === 0 && (
+                <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '4rem', color: 'var(--muted)', fontStyle: 'italic', border: '1px dashed var(--border)' }}>
+                  No albums yet. Click "+ New Album" to create one.
+                </div>
+              )}
             </div>
           )}
         </>
@@ -203,7 +245,8 @@ export default function AdminGallery() {
             {photos.map((photo) => (
               <div key={photo.id} style={{ background: 'var(--card)', border: '1px solid var(--border)', overflow: 'hidden' }}>
                 <div style={{ position: 'relative', paddingBottom: '75%', overflow: 'hidden' }}>
-                  <img src={photo.url} alt={photo.caption} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={photo.url} alt={photo.caption || ''} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => { e.target.style.background = '#333'; e.target.style.display = 'none'; }} />
                   {selectedAlbum.cover_url === photo.url && (
                     <div style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', background: 'var(--gold)', padding: '2px 8px', fontFamily: 'Cinzel, serif', fontSize: '0.55rem', letterSpacing: '0.15em', color: 'var(--deep)', fontWeight: 700 }}>COVER</div>
                   )}
