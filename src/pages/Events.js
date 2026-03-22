@@ -19,17 +19,6 @@ const categoryBorders = {
   General: 'rgba(201,168,76,0.3)',
 };
 
-function formatDate(dateStr) {
-  const d = new Date(dateStr);
-  return {
-    day: d.getDate(),
-    month: d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
-    year: d.getFullYear(),
-    full: d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
-    weekday: d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase(),
-  };
-}
-
 function TicketLink({ url, style, children }) {
   return (
     <a
@@ -44,6 +33,17 @@ function TicketLink({ url, style, children }) {
       {children}
     </a>
   );
+}
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  return {
+    day: d.getDate(),
+    month: d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
+    year: d.getFullYear(),
+    full: d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+    weekday: d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase(),
+  };
 }
 
 export default function Events() {
@@ -304,7 +304,7 @@ export default function Events() {
             <div className="gold-line" />
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontFamily: 'Cinzel, serif', fontSize: '1.1rem', color: 'var(--gold)', letterSpacing: '0.25em', fontWeight: 700 }}>SANCTIFIED</div>
-              <div style={{ fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>ACAPELLA  </div>
+              <div style={{ fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>ACAPELLA</div>
             </div>
             <div className="gold-line" />
           </div>
@@ -319,7 +319,7 @@ export default function Events() {
           </div>
           <div className="gold-line" style={{ marginBottom: '1.5rem' }} />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
-            <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)' }}>© 2026 SANCTIFIED ACAPELLA   · ALL RIGHTS RESERVED</p>
+            <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)' }}>© 2026 SANCTIFIED ACAPELLA · ALL RIGHTS RESERVED</p>
             <p style={{ fontSize: '0.75rem', color: 'var(--muted)', fontStyle: 'italic' }}>
               Designed & maintained by{' '}
               <a href="https://huyafricatechnologies.co.zw/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)', textDecoration: 'none', fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.1em' }}

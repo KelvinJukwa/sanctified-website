@@ -61,7 +61,7 @@ export default function Home() {
       {/* ═══ HERO SECTION ═══ */}
       <section style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
 
-        {/* Background Image */}
+        {/* Background Image — FIXED: removed duplicate transition key */}
         <div style={{
           position: 'absolute', inset: 0,
           backgroundImage: `url(${slide.image})`,
@@ -178,9 +178,7 @@ export default function Home() {
         </div>
 
         {/* Slide Label Bottom Left */}
-        <div style={{
-          position: 'absolute', bottom: '2.5rem', left: '2.5rem', zIndex: 3
-        }}>
+        <div style={{ position: 'absolute', bottom: '2.5rem', left: '2.5rem', zIndex: 3 }}>
           <span style={{
             fontFamily: 'Cinzel, serif', fontSize: '0.62rem',
             letterSpacing: '0.25em', color: 'rgba(201,168,76,0.6)'
@@ -199,10 +197,7 @@ export default function Home() {
 
           {/* Left: Decorative Block */}
           <div style={{ position: 'relative' }}>
-            <div style={{
-              width: '100%', paddingBottom: '110%', position: 'relative',
-              border: '1px solid var(--border)'
-            }}>
+            <div style={{ width: '100%', paddingBottom: '110%', position: 'relative', border: '1px solid var(--border)' }}>
               <div style={{
                 position: 'absolute', inset: 0,
                 background: `url(https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80)`,
@@ -213,20 +208,13 @@ export default function Home() {
                 background: 'linear-gradient(135deg, rgba(8,8,16,0.3), rgba(201,168,76,0.08))'
               }} />
             </div>
-            {/* Floating accent box */}
             <div style={{
               position: 'absolute', bottom: '-2rem', right: '-2rem',
               background: 'var(--card)', border: '1px solid var(--border)',
               padding: '1.5rem 2rem', zIndex: 2
             }}>
-              <div style={{
-                fontFamily: 'Cinzel, serif', fontSize: '2.5rem',
-                color: 'var(--gold)', fontWeight: 700, lineHeight: 1
-              }}>2018</div>
-              <div style={{
-                fontSize: '0.65rem', letterSpacing: '0.3em',
-                color: 'var(--muted)', marginTop: '4px'
-              }}>ESTABLISHED</div>
+              <div style={{ fontFamily: 'Cinzel, serif', fontSize: '2.5rem', color: 'var(--gold)', fontWeight: 700, lineHeight: 1 }}>2018</div>
+              <div style={{ fontSize: '0.65rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>ESTABLISHED</div>
             </div>
           </div>
 
@@ -234,37 +222,20 @@ export default function Home() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
               <div style={{ width: '30px', height: '1px', background: 'var(--gold)' }} />
-              <span style={{
-                fontFamily: 'Cinzel, serif', fontSize: '0.65rem',
-                letterSpacing: '0.45em', color: 'var(--gold)'
-              }}>OUR STORY</span>
+              <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.45em', color: 'var(--gold)' }}>OUR STORY</span>
             </div>
-
-            <h2 style={{
-              fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text)',
-              marginBottom: '1.5rem', lineHeight: 1.2
-            }}>
+            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text)', marginBottom: '1.5rem', lineHeight: 1.2 }}>
               Music As A<br />
               <em style={{ color: 'var(--gold)', fontStyle: 'italic' }}>Divine Calling</em>
             </h2>
-
             <div className="gold-line-left" style={{ marginBottom: '2rem', maxWidth: '80px' }} />
-
-            <p style={{
-              color: 'var(--muted)', lineHeight: 2.1, fontSize: '1.1rem',
-              marginBottom: '1.2rem', fontStyle: 'italic'
-            }}>
-             Sanctified Acapella is a vibrant and spiritually grounded gospel singing group that was given 
-             life at Ruya Adventist High School. Born out of a passion for harmonious worship and musical excellence, 
-             the group began as a platform for nurturing young talent and spreading the gospel through a cappella music.
-
+            <p style={{ color: 'var(--muted)', lineHeight: 2.1, fontSize: '1.1rem', marginBottom: '1.2rem', fontStyle: 'italic' }}>
+              Sanctified Acapella is a vibrant and spiritually grounded gospel singing group that was given
+              life at Ruya Adventist High School. Born out of a passion for harmonious worship and musical excellence,
+              the group began as a platform for nurturing young talent and spreading the gospel through a cappella music.
             </p>
-
-            <p style={{
-              color: 'var(--muted)', lineHeight: 2, fontSize: '1rem',
-              marginBottom: '2.5rem'
-            }}>
-              With a rich heritage rooted in Adventist education and a vision anchored in worship, 
+            <p style={{ color: 'var(--muted)', lineHeight: 2, fontSize: '1rem', marginBottom: '2.5rem' }}>
+              With a rich heritage rooted in Adventist education and a vision anchored in worship,
               Sanctified Acapella continues to inspire, uplift, and sanctify hearts through the power of harmonious praise.
             </p>
 
@@ -302,10 +273,7 @@ export default function Home() {
       }}>
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
           <div style={{ fontSize: '3rem', color: 'var(--gold)', opacity: 0.25, fontFamily: 'Cinzel, serif', lineHeight: 1 }}>"</div>
-          <p style={{
-            fontStyle: 'italic', fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
-            color: 'var(--text)', lineHeight: 1.9, margin: '0.5rem 0 1.5rem'
-          }}>
+          <p style={{ fontStyle: 'italic', fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)', color: 'var(--text)', lineHeight: 1.9, margin: '0.5rem 0 1.5rem' }}>
             Let every thing that hath breath praise the lord. Praise the Lord.
           </p>
           <div className="gold-line" style={{ maxWidth: '120px', margin: '0 auto 1rem' }} />
@@ -318,15 +286,11 @@ export default function Home() {
       {/* ═══ GALLERY PREVIEW ═══ */}
       <section style={{ padding: '8rem 2rem', background: 'var(--deep)' }}>
         <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-
-          {/* Section Header */}
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '3rem', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.75rem' }}>
                 <div style={{ width: '30px', height: '1px', background: 'var(--gold)' }} />
-                <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.45em', color: 'var(--gold)' }}>
-                  MOMENTS & MEMORIES
-                </span>
+                <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.45em', color: 'var(--gold)' }}>MOMENTS & MEMORIES</span>
               </div>
               <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--text)' }}>Our Gallery</h2>
             </div>
@@ -334,20 +298,13 @@ export default function Home() {
               display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
               color: 'var(--gold)', textDecoration: 'none',
               fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.2em',
-              borderBottom: '1px solid rgba(201,168,76,0.3)', paddingBottom: '2px',
-              transition: 'all 0.3s'
+              borderBottom: '1px solid rgba(201,168,76,0.3)', paddingBottom: '2px', transition: 'all 0.3s'
             }}>
               View Full Gallery →
             </Link>
           </div>
 
-          {/* Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gridTemplateRows: 'auto auto',
-            gap: '6px'
-          }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'auto auto', gap: '6px' }}>
             {galleryPreviews.map((img, i) => (
               <div key={i} style={{
                 position: 'relative', overflow: 'hidden',
@@ -362,24 +319,14 @@ export default function Home() {
                   onMouseOver={e => e.target.style.transform = 'scale(1.06)'}
                   onMouseOut={e => e.target.style.transform = 'scale(1)'}
                 />
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  background: 'linear-gradient(to top, rgba(8,8,16,0.7) 0%, transparent 50%)',
-                  transition: 'opacity 0.3s'
-                }} />
-                <div style={{
-                  position: 'absolute', bottom: '1rem', left: '1.25rem'
-                }}>
-                  <span style={{
-                    fontFamily: 'Cinzel, serif', fontSize: '0.65rem',
-                    letterSpacing: '0.2em', color: 'rgba(242,238,230,0.8)'
-                  }}>{img.caption}</span>
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,8,16,0.7) 0%, transparent 50%)', transition: 'opacity 0.3s' }} />
+                <div style={{ position: 'absolute', bottom: '1rem', left: '1.25rem' }}>
+                  <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(242,238,230,0.8)' }}>{img.caption}</span>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Bottom CTA */}
           <div style={{ textAlign: 'center', marginTop: '3rem' }}>
             <Link to="/gallery" style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.75rem',
@@ -397,41 +344,21 @@ export default function Home() {
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer style={{
-        background: 'var(--dark)',
-        borderTop: '1px solid var(--border)',
-        padding: '3rem 2rem 2rem'
-      }}>
+      <footer style={{ background: 'var(--dark)', borderTop: '1px solid var(--border)', padding: '3rem 2rem 2rem' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-
-          {/* Top Footer */}
-          <div style={{
-            display: 'grid', gridTemplateColumns: '1fr auto 1fr',
-            alignItems: 'center', marginBottom: '2rem', gap: '2rem'
-          }} className="footer-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', marginBottom: '2rem', gap: '2rem' }} className="footer-grid">
             <div className="gold-line" />
             <div style={{ textAlign: 'center' }}>
-              <div style={{
-                fontFamily: 'Cinzel, serif', fontSize: '1.1rem',
-                color: 'var(--gold)', letterSpacing: '0.25em', fontWeight: 700
-              }}>SANCTIFIED</div>
-              <div style={{ fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>
-                ACAPELLA 
-              </div>
+              <div style={{ fontFamily: 'Cinzel, serif', fontSize: '1.1rem', color: 'var(--gold)', letterSpacing: '0.25em', fontWeight: 700 }}>SANCTIFIED</div>
+              <div style={{ fontSize: '0.6rem', letterSpacing: '0.3em', color: 'var(--muted)', marginTop: '4px' }}>ACAPELLA</div>
             </div>
             <div className="gold-line" />
           </div>
-
-          {/* Nav Links */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
             {['/', '/about', '/videos', '/gallery', '/events', '/contact'].map((path, i) => {
               const labels = ['Home', 'About', 'Videos', 'Gallery', 'Events', 'Contact'];
               return (
-                <Link key={path} to={path} style={{
-                  textDecoration: 'none', fontFamily: 'Cinzel, serif',
-                  fontSize: '0.65rem', letterSpacing: '0.2em',
-                  color: 'var(--muted)', transition: 'color 0.3s'
-                }}
+                <Link key={path} to={path} style={{ textDecoration: 'none', fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.2em', color: 'var(--muted)', transition: 'color 0.3s' }}
                   onMouseOver={e => e.target.style.color = 'var(--gold)'}
                   onMouseOut={e => e.target.style.color = 'var(--muted)'}>
                   {labels[i]}
@@ -439,23 +366,14 @@ export default function Home() {
               );
             })}
           </div>
-
           <div className="gold-line" style={{ marginBottom: '1.5rem' }} />
-
-          {/* Bottom Footer */}
-          <div style={{
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            flexWrap: 'wrap', gap: '0.75rem'
-          }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
             <p style={{ fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)' }}>
-              © 2026 SANCTIFIED ACAPELLA  · ALL RIGHTS RESERVED
+              © 2026 SANCTIFIED ACAPELLA · ALL RIGHTS RESERVED
             </p>
             <p style={{ fontSize: '0.75rem', color: 'var(--muted)', fontStyle: 'italic' }}>
               Designed & maintained by{' '}
-              <a href="https://huyafricatechnologies.co.zw/" target="_blank" rel="noopener noreferrer" style={{
-                color: 'var(--gold)', textDecoration: 'none',
-                fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.1em'
-              }}
+              <a href="https://huyafricatechnologies.co.zw/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)', textDecoration: 'none', fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.1em' }}
                 onMouseOver={e => e.target.style.color = 'var(--gold-light)'}
                 onMouseOut={e => e.target.style.color = 'var(--gold)'}>
                 HUYAFRICA TECHNOLOGIES
