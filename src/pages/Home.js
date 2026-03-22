@@ -3,30 +3,30 @@ import { Link } from 'react-router-dom';
 
 const heroSlides = [
   {
-    image: '/aka.png',
+    image: '/Gallery/Fine Linen Album Launch/14.jpeg',
     label: 'Meet Akatendeka',
     subtitle: 'Lifting voices in praise'
   },
   {
-    image: 'fadzi.jpeg',
+    image: '/Gallery/Fine Linen Album Launch/15.jpeg',
     label: 'Meet Fadzie',
     subtitle: 'Spreading the Gospel through music'
   },
   {
-    image: 'clive.png',
+    image: '/Gallery/Fine Linen Album Launch/16.jpeg',
     label: 'Meets Clive',
     subtitle: 'Creating music for His glory'
   },
   {
-    image: 'joina.jpeg',
+    image: '/Gallery/Fine Linen Album Launch/17.jpeg',
     label: 'Meet Joina',
     subtitle: 'Reaching the next generation'
   },
 ];
 
 const galleryPreviews = [
-  { url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80', caption: 'Worship Night' },
-  { url: 'https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=600&q=80', caption: 'Annual Concert' },
+  { url: '/Gallery/Fine Linen Album Launch/14.jpeg', caption: 'Album launch' },
+  { url: '/Gallery/Westgate West Sabbath/3.jpeg', caption: 'Westgate west' },
   { url: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80', caption: 'Studio Session' },
   { url: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80', caption: 'Youth Camp' },
   { url: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80', caption: 'Performance' },
