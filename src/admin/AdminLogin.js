@@ -29,7 +29,7 @@ export default function AdminLogin() {
 
       {/* LEFT PANEL */}
       <div className="login-left" style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1200&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: '/Gallery/Fine Linen Album Launch/15.jpeg', backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(8,8,16,0.88) 0%, rgba(8,8,16,0.65) 60%, rgba(201,168,76,0.08) 100%)' }} />
 
         <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '3rem' }}>

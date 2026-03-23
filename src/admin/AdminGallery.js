@@ -8,6 +8,7 @@ export default function AdminGallery() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [showAlbumForm, setShowAlbumForm] = useState(false);
+  const [editingAlbum, setEditingAlbum] = useState(null);
   const [albumForm, setAlbumForm] = useState({ event: '', date: '', venue: '' });
   const [message, setMessage] = useState({ text: '', type: '' });
 
@@ -31,17 +32,46 @@ export default function AdminGallery() {
     if (!error) setPhotos(data);
   };
 
-  const createAlbum = async () => {
-    if (!albumForm.event || !albumForm.date || !albumForm.venue) { showMessage('Please fill all fields', 'error'); return; }
-    const { error } = await supabase.from('albums').insert([albumForm]);
-    if (error) { showMessage('Error creating album: ' + error.message, 'error'); return; }
-    showMessage('Album created successfully!');
+  const openNewAlbum = () => {
+    setEditingAlbum(null);
+    setAlbumForm({ event: '', date: '', venue: '' });
+    setShowAlbumForm(true);
+  };
+
+  const openEditAlbum = (album, e) => {
+    e.stopPropagation();
+    setEditingAlbum(album);
+    setAlbumForm({ event: album.event, date: album.date, venue: album.venue });
+    setShowAlbumForm(true);
+  };
+
+  const saveAlbum = async () => {
+    if (!albumForm.event || !albumForm.date || !albumForm.venue) {
+      showMessage('Please fill all fields', 'error'); return;
+    }
+
+    if (editingAlbum) {
+      const { error } = await supabase.from('albums').update(albumForm).eq('id', editingAlbum.id);
+      if (error) { showMessage('Error updating album: ' + error.message, 'error'); return; }
+      showMessage('Album updated successfully!');
+      // Update selectedAlbum if we're editing the currently open one
+      if (selectedAlbum?.id === editingAlbum.id) {
+        setSelectedAlbum(prev => ({ ...prev, ...albumForm }));
+      }
+    } else {
+      const { error } = await supabase.from('albums').insert([albumForm]);
+      if (error) { showMessage('Error creating album: ' + error.message, 'error'); return; }
+      showMessage('Album created successfully!');
+    }
+
     setAlbumForm({ event: '', date: '', venue: '' });
     setShowAlbumForm(false);
+    setEditingAlbum(null);
     fetchAlbums();
   };
 
-  const deleteAlbum = async (id) => {
+  const deleteAlbum = async (id, e) => {
+    e.stopPropagation();
     if (!window.confirm('Delete this album and all its photos?')) return;
     await supabase.from('albums').delete().eq('id', id);
     showMessage('Album deleted');
@@ -62,7 +92,6 @@ export default function AdminGallery() {
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
         const filePath = `gallery/${selectedAlbum.id}/${fileName}`;
 
-        // Step 1: Upload file to storage
         const { error: uploadError } = await supabase.storage
           .from('sanctified-media')
           .upload(filePath, file, { upsert: false });
@@ -72,47 +101,33 @@ export default function AdminGallery() {
           continue;
         }
 
-        // Step 2: Get public URL - using correct method
         const { data: urlData } = supabase.storage
           .from('sanctified-media')
           .getPublicUrl(filePath);
 
         const publicUrl = urlData?.publicUrl;
+        if (!publicUrl) { showMessage('Could not get URL for ' + file.name, 'error'); continue; }
 
-        if (!publicUrl) {
-          showMessage('Could not get public URL for ' + file.name, 'error');
-          continue;
-        }
-
-        // Step 3: Save to photos table
         const { error: dbError } = await supabase.from('photos').insert([{
           album_id: selectedAlbum.id,
           url: publicUrl,
           caption: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')
         }]);
 
-        if (dbError) {
-          showMessage(`DB save failed: ${dbError.message}`, 'error');
-          continue;
-        }
+        if (dbError) { showMessage(`Save failed: ${dbError.message}`, 'error'); continue; }
 
-        // Step 4: Set as cover if this is the first photo
         if (!selectedAlbum.cover_url) {
           await supabase.from('albums').update({ cover_url: publicUrl }).eq('id', selectedAlbum.id);
           setSelectedAlbum(prev => ({ ...prev, cover_url: publicUrl }));
         }
 
         successCount++;
-
       } catch (err) {
-        showMessage(`Unexpected error: ${err.message}`, 'error');
+        showMessage(`Error: ${err.message}`, 'error');
       }
     }
 
-    if (successCount > 0) {
-      showMessage(`${successCount} photo(s) uploaded successfully!`);
-    }
-
+    if (successCount > 0) showMessage(`${successCount} photo(s) uploaded!`);
     setUploading(false);
     fetchPhotos(selectedAlbum.id);
     fetchAlbums();
@@ -145,7 +160,6 @@ export default function AdminGallery() {
 
   return (
     <div>
-      {/* Message Toast */}
       {message.text && (
         <div style={{ position: 'fixed', top: '1.5rem', right: '1.5rem', zIndex: 1000, padding: '0.85rem 1.5rem', background: message.type === 'error' ? 'rgba(220,80,80,0.15)' : 'rgba(76,201,130,0.15)', border: `1px solid ${message.type === 'error' ? 'rgba(220,80,80,0.4)' : 'rgba(76,201,130,0.4)'}`, color: message.type === 'error' ? 'rgba(220,80,80,0.9)' : 'rgba(76,201,130,0.9)', fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.15em', maxWidth: '400px' }}>
           {message.text}
@@ -154,37 +168,45 @@ export default function AdminGallery() {
 
       {!selectedAlbum ? (
         <>
-          {/* Albums Header */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
               <h2 style={{ color: 'var(--text)', fontSize: '1.3rem', marginBottom: '4px' }}>Photo Albums</h2>
               <p style={{ color: 'var(--muted)', fontSize: '0.85rem', fontStyle: 'italic' }}>{albums.length} album(s) total</p>
             </div>
-            <button onClick={() => setShowAlbumForm(!showAlbumForm)} style={{ padding: '0.75rem 1.75rem', background: 'var(--gold)', color: 'var(--deep)', border: 'none', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.18em', fontWeight: 700 }}>
+            <button onClick={openNewAlbum} style={{ padding: '0.75rem 1.75rem', background: 'var(--gold)', color: 'var(--deep)', border: 'none', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.18em', fontWeight: 700 }}>
               + NEW ALBUM
             </button>
           </div>
 
-          {/* New Album Form */}
+          {/* Album Form — create or edit */}
           {showAlbumForm && (
             <div style={{ background: 'var(--card)', border: '1px solid rgba(201,168,76,0.3)', padding: '1.75rem', marginBottom: '2rem' }}>
-              <h3 style={{ color: 'var(--gold)', fontFamily: 'Cinzel, serif', fontSize: '0.8rem', letterSpacing: '0.2em', marginBottom: '1.5rem' }}>CREATE NEW ALBUM</h3>
+              <h3 style={{ color: 'var(--gold)', fontFamily: 'Cinzel, serif', fontSize: '0.8rem', letterSpacing: '0.2em', marginBottom: '1.5rem' }}>
+                {editingAlbum ? `EDITING: ${editingAlbum.event}` : 'CREATE NEW ALBUM'}
+              </h3>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }}>
-                {[['event', 'Event Name', 'text'], ['date', 'Date', 'text'], ['venue', 'Venue', 'text']].map(([field, label, type]) => (
+                {[['event', 'Event Name'], ['date', 'Date'], ['venue', 'Venue']].map(([field, label]) => (
                   <div key={field}>
                     <label style={labelStyle}>{label}</label>
-                    <input type={type} value={albumForm[field]} onChange={(e) => setAlbumForm({ ...albumForm, [field]: e.target.value })} style={inputStyle} placeholder={label} />
+                    <input
+                      type="text"
+                      value={albumForm[field]}
+                      onChange={(e) => setAlbumForm({ ...albumForm, [field]: e.target.value })}
+                      style={inputStyle}
+                      placeholder={label}
+                    />
                   </div>
                 ))}
               </div>
               <div style={{ display: 'flex', gap: '0.75rem' }}>
-                <button onClick={createAlbum} style={{ padding: '0.7rem 1.75rem', background: 'var(--gold)', color: 'var(--deep)', border: 'none', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.68rem', letterSpacing: '0.15em', fontWeight: 700 }}>CREATE ALBUM</button>
-                <button onClick={() => setShowAlbumForm(false)} style={{ padding: '0.7rem 1.75rem', background: 'transparent', border: '1px solid var(--border)', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.68rem', letterSpacing: '0.15em' }}>CANCEL</button>
+                <button onClick={saveAlbum} style={{ padding: '0.7rem 1.75rem', background: 'var(--gold)', color: 'var(--deep)', border: 'none', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.68rem', letterSpacing: '0.15em', fontWeight: 700 }}>
+                  {editingAlbum ? 'SAVE CHANGES' : 'CREATE ALBUM'}
+                </button>
+                <button onClick={() => { setShowAlbumForm(false); setEditingAlbum(null); }} style={{ padding: '0.7rem 1.75rem', background: 'transparent', border: '1px solid var(--border)', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.68rem', letterSpacing: '0.15em' }}>CANCEL</button>
               </div>
             </div>
           )}
 
-          {/* Albums Grid */}
           {loading ? (
             <div style={{ textAlign: 'center', color: 'var(--muted)', padding: '3rem', fontStyle: 'italic' }}>Loading albums...</div>
           ) : (
@@ -206,9 +228,10 @@ export default function AdminGallery() {
                     <p style={{ color: 'var(--muted)', fontSize: '0.82rem', marginBottom: '1rem' }}>📍 {album.venue}</p>
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
                       <button onClick={() => setSelectedAlbum(album)} style={{ flex: 1, padding: '0.6rem', background: 'var(--gold)', color: 'var(--deep)', border: 'none', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.62rem', letterSpacing: '0.12em', fontWeight: 700 }}>
-                        MANAGE PHOTOS
+                        PHOTOS
                       </button>
-                      <button onClick={() => deleteAlbum(album.id)} style={{ padding: '0.6rem 0.85rem', background: 'transparent', border: '1px solid rgba(220,80,80,0.3)', color: 'rgba(220,80,80,0.7)', cursor: 'pointer', fontSize: '0.85rem' }}>🗑</button>
+                      <button onClick={(e) => openEditAlbum(album, e)} style={{ padding: '0.6rem 0.85rem', background: 'transparent', border: '1px solid rgba(201,168,76,0.3)', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.75rem', fontFamily: 'Cinzel, serif' }}>✎ EDIT</button>
+                      <button onClick={(e) => deleteAlbum(album.id, e)} style={{ padding: '0.6rem 0.85rem', background: 'transparent', border: '1px solid rgba(220,80,80,0.3)', color: 'rgba(220,80,80,0.7)', cursor: 'pointer', fontSize: '0.85rem' }}>🗑</button>
                     </div>
                   </div>
                 </div>
@@ -223,7 +246,6 @@ export default function AdminGallery() {
         </>
       ) : (
         <>
-          {/* Photos Header */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <button onClick={() => setSelectedAlbum(null)} style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--muted)', cursor: 'pointer', padding: '0.5rem 1rem', fontFamily: 'Cinzel, serif', fontSize: '0.62rem', letterSpacing: '0.15em' }}>
@@ -240,13 +262,11 @@ export default function AdminGallery() {
             </label>
           </div>
 
-          {/* Photos Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
             {photos.map((photo) => (
               <div key={photo.id} style={{ background: 'var(--card)', border: '1px solid var(--border)', overflow: 'hidden' }}>
                 <div style={{ position: 'relative', paddingBottom: '75%', overflow: 'hidden' }}>
-                  <img src={photo.url} alt={photo.caption || ''} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                    onError={(e) => { e.target.style.background = '#333'; e.target.style.display = 'none'; }} />
+                  <img src={photo.url} alt={photo.caption || ''} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
                   {selectedAlbum.cover_url === photo.url && (
                     <div style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', background: 'var(--gold)', padding: '2px 8px', fontFamily: 'Cinzel, serif', fontSize: '0.55rem', letterSpacing: '0.15em', color: 'var(--deep)', fontWeight: 700 }}>COVER</div>
                   )}

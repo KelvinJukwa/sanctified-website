@@ -11,6 +11,8 @@ export default function AdminEvents() {
   const [editingEvent, setEditingEvent] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [message, setMessage] = useState({ text: '', type: '' });
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => { fetchEvents(); }, []);
 
@@ -26,21 +28,65 @@ export default function AdminEvents() {
     setLoading(false);
   };
 
-  const openAdd = () => { setEditingEvent(null); setForm(emptyForm); setShowForm(true); };
-  const openEdit = (event) => { setEditingEvent(event); setForm({ ...emptyForm, ...event }); setShowForm(true); };
+  const openAdd = () => {
+    setEditingEvent(null);
+    setForm(emptyForm);
+    setImagePreview(null);
+    setShowForm(true);
+  };
+
+  const openEdit = (event) => {
+    setEditingEvent(event);
+    setForm({ ...emptyForm, ...event });
+    setImagePreview(event.image_url || null);
+    setShowForm(true);
+  };
+
+  const uploadEventImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingImage(true);
+
+    try {
+      const fileExt = file.name.split('.').pop().toLowerCase();
+      const fileName = `event-${Date.now()}.${fileExt}`;
+      const filePath = `events/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('sanctified-media')
+        .upload(filePath, file, { upsert: false });
+
+      if (uploadError) { showMsg('Image upload failed: ' + uploadError.message, 'error'); setUploadingImage(false); return; }
+
+      const { data: urlData } = supabase.storage.from('sanctified-media').getPublicUrl(filePath);
+      const publicUrl = urlData?.publicUrl;
+
+      if (publicUrl) {
+        setForm(prev => ({ ...prev, image_url: publicUrl }));
+        setImagePreview(publicUrl);
+        showMsg('Image uploaded!');
+      }
+    } catch (err) {
+      showMsg('Error: ' + err.message, 'error');
+    }
+
+    setUploadingImage(false);
+    e.target.value = '';
+  };
 
   const saveEvent = async () => {
     if (!form.title || !form.date || !form.venue) { showMsg('Title, date and venue are required', 'error'); return; }
     if (editingEvent) {
       const { error } = await supabase.from('events').update(form).eq('id', editingEvent.id);
-      if (error) { showMsg('Error updating event', 'error'); return; }
+      if (error) { showMsg('Error updating event: ' + error.message, 'error'); return; }
       showMsg('Event updated!');
     } else {
       const { error } = await supabase.from('events').insert([form]);
-      if (error) { showMsg('Error adding event', 'error'); return; }
+      if (error) { showMsg('Error adding event: ' + error.message, 'error'); return; }
       showMsg('Event added!');
     }
     setShowForm(false);
+    setImagePreview(null);
     fetchEvents();
   };
 
@@ -57,7 +103,7 @@ export default function AdminEvents() {
   return (
     <div>
       {message.text && (
-        <div style={{ position: 'fixed', top: '1.5rem', right: '1.5rem', zIndex: 1000, padding: '0.85rem 1.5rem', background: message.type === 'error' ? 'rgba(220,80,80,0.15)' : 'rgba(76,201,130,0.15)', border: `1px solid ${message.type === 'error' ? 'rgba(220,80,80,0.4)' : 'rgba(76,201,130,0.4)'}`, color: message.type === 'error' ? 'rgba(220,80,80,0.9)' : 'rgba(76,201,130,0.9)', fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.15em' }}>
+        <div style={{ position: 'fixed', top: '1.5rem', right: '1.5rem', zIndex: 1000, padding: '0.85rem 1.5rem', background: message.type === 'error' ? 'rgba(220,80,80,0.15)' : 'rgba(76,201,130,0.15)', border: `1px solid ${message.type === 'error' ? 'rgba(220,80,80,0.4)' : 'rgba(76,201,130,0.4)'}`, color: message.type === 'error' ? 'rgba(220,80,80,0.9)' : 'rgba(76,201,130,0.9)', fontFamily: 'Cinzel, serif', fontSize: '0.7rem', letterSpacing: '0.15em', maxWidth: '400px' }}>
           {message.text}
         </div>
       )}
@@ -113,15 +159,54 @@ export default function AdminEvents() {
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} placeholder="Event description..." style={{ ...inputStyle, resize: 'vertical' }} />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
-            <div>
-              <label style={labelStyle}>Event Image URL</label>
-              <input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} placeholder="https://..." style={inputStyle} />
+          {/* Event Image — Upload from device OR paste URL */}
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Event Image</label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', alignItems: 'start' }}>
+
+              {/* Upload from device */}
+              <div>
+                <label style={{ display: 'block', fontFamily: 'Cinzel, serif', fontSize: '0.58rem', letterSpacing: '0.15em', color: 'var(--muted)', marginBottom: '0.4rem' }}>
+                  UPLOAD FROM DEVICE
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem', background: uploadingImage ? 'rgba(201,168,76,0.3)' : 'var(--deep)', border: '1px solid rgba(201,168,76,0.2)', color: 'var(--gold)', cursor: uploadingImage ? 'not-allowed' : 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.65rem', letterSpacing: '0.15em', transition: 'all 0.3s' }}>
+                  {uploadingImage ? '⏳ UPLOADING...' : '📷 CHOOSE IMAGE'}
+                  <input type="file" accept="image/*" onChange={uploadEventImage} style={{ display: 'none' }} disabled={uploadingImage} />
+                </label>
+              </div>
+
+              {/* Or paste URL */}
+              <div>
+                <label style={{ display: 'block', fontFamily: 'Cinzel, serif', fontSize: '0.58rem', letterSpacing: '0.15em', color: 'var(--muted)', marginBottom: '0.4rem' }}>
+                  OR PASTE IMAGE URL
+                </label>
+                <input
+                  value={form.image_url}
+                  onChange={(e) => { setForm({ ...form, image_url: e.target.value }); setImagePreview(e.target.value); }}
+                  placeholder="https://..."
+                  style={inputStyle}
+                />
+              </div>
             </div>
-            <div>
-              <label style={labelStyle}>Ticket URL (TickeTora)</label>
-              <input value={form.ticket_url} onChange={(e) => setForm({ ...form, ticket_url: e.target.value })} placeholder="https://ticketora.com/..." style={inputStyle} disabled={!form.tickets_available} />
-            </div>
+
+            {/* Image Preview */}
+            {imagePreview && (
+              <div style={{ marginTop: '1rem', position: 'relative', display: 'inline-block' }}>
+                <img src={imagePreview} alt="preview"
+                  style={{ height: '120px', width: '200px', objectFit: 'cover', border: '1px solid rgba(201,168,76,0.3)' }}
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+                <button onClick={() => { setImagePreview(null); setForm({ ...form, image_url: '' }); }}
+                  style={{ position: 'absolute', top: '4px', right: '4px', background: 'rgba(220,80,80,0.8)', border: 'none', color: '#fff', cursor: 'pointer', width: '20px', height: '20px', fontSize: '0.7rem', borderRadius: '50%' }}>
+                  ✕
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={labelStyle}>Ticket URL (TickeTora)</label>
+            <input value={form.ticket_url} onChange={(e) => setForm({ ...form, ticket_url: e.target.value })} placeholder="https://ticketora.com/..." style={inputStyle} disabled={!form.tickets_available} />
           </div>
 
           {/* Toggles */}
@@ -139,7 +224,7 @@ export default function AdminEvents() {
             <button onClick={saveEvent} style={{ padding: '0.7rem 1.75rem', background: 'var(--gold)', color: 'var(--deep)', border: 'none', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.68rem', letterSpacing: '0.15em', fontWeight: 700 }}>
               {editingEvent ? 'UPDATE EVENT' : 'SAVE EVENT'}
             </button>
-            <button onClick={() => setShowForm(false)} style={{ padding: '0.7rem 1.75rem', background: 'transparent', border: '1px solid var(--border)', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.68rem', letterSpacing: '0.15em' }}>CANCEL</button>
+            <button onClick={() => { setShowForm(false); setImagePreview(null); }} style={{ padding: '0.7rem 1.75rem', background: 'transparent', border: '1px solid var(--border)', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.68rem', letterSpacing: '0.15em' }}>CANCEL</button>
           </div>
         </div>
       )}
@@ -165,19 +250,26 @@ export default function AdminEvents() {
                   {event.date ? new Date(event.date).getFullYear() : ''}
                 </div>
               </div>
+
               {/* Info */}
-              <div style={{ padding: '1rem 1.25rem' }}>
-                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.4rem', flexWrap: 'wrap' }}>
-                  <span style={{ padding: '1px 8px', background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.3)', fontFamily: 'Cinzel, serif', fontSize: '0.55rem', letterSpacing: '0.12em', color: 'var(--gold)' }}>{event.category}</span>
-                  {event.featured && <span style={{ padding: '1px 8px', background: 'rgba(255,200,0,0.1)', border: '1px solid rgba(255,200,0,0.3)', fontFamily: 'Cinzel, serif', fontSize: '0.55rem', letterSpacing: '0.12em', color: 'rgba(255,200,0,0.8)' }}>⭐ FEATURED</span>}
-                  {event.tickets_available && <span style={{ padding: '1px 8px', background: 'rgba(76,201,130,0.1)', border: '1px solid rgba(76,201,130,0.3)', fontFamily: 'Cinzel, serif', fontSize: '0.55rem', letterSpacing: '0.12em', color: 'rgba(76,201,130,0.8)' }}>🎟 TICKETS</span>}
-                </div>
-                <h3 style={{ color: 'var(--text)', fontSize: '1rem', marginBottom: '0.3rem' }}>{event.title}</h3>
-                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                  {event.time && <span style={{ color: 'var(--muted)', fontSize: '0.8rem' }}>🕐 {event.time}</span>}
-                  {event.venue && <span style={{ color: 'var(--muted)', fontSize: '0.8rem' }}>📍 {event.venue}</span>}
+              <div style={{ padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                {event.image_url && (
+                  <img src={event.image_url} alt={event.title} style={{ width: '60px', height: '60px', objectFit: 'cover', flexShrink: 0, border: '1px solid var(--border)' }} />
+                )}
+                <div>
+                  <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.4rem', flexWrap: 'wrap' }}>
+                    <span style={{ padding: '1px 8px', background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.3)', fontFamily: 'Cinzel, serif', fontSize: '0.55rem', letterSpacing: '0.12em', color: 'var(--gold)' }}>{event.category}</span>
+                    {event.featured && <span style={{ padding: '1px 8px', background: 'rgba(255,200,0,0.1)', border: '1px solid rgba(255,200,0,0.3)', fontFamily: 'Cinzel, serif', fontSize: '0.55rem', letterSpacing: '0.12em', color: 'rgba(255,200,0,0.8)' }}>⭐ FEATURED</span>}
+                    {event.tickets_available && <span style={{ padding: '1px 8px', background: 'rgba(76,201,130,0.1)', border: '1px solid rgba(76,201,130,0.3)', fontFamily: 'Cinzel, serif', fontSize: '0.55rem', letterSpacing: '0.12em', color: 'rgba(76,201,130,0.8)' }}>🎟 TICKETS</span>}
+                  </div>
+                  <h3 style={{ color: 'var(--text)', fontSize: '1rem', marginBottom: '0.3rem' }}>{event.title}</h3>
+                  <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                    {event.time && <span style={{ color: 'var(--muted)', fontSize: '0.8rem' }}>🕐 {event.time}</span>}
+                    {event.venue && <span style={{ color: 'var(--muted)', fontSize: '0.8rem' }}>📍 {event.venue}</span>}
+                  </div>
                 </div>
               </div>
+
               {/* Actions */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', borderLeft: '1px solid var(--border)', justifyContent: 'center' }}>
                 <button onClick={() => openEdit(event)} style={{ padding: '0.5rem 1rem', background: 'transparent', border: '1px solid rgba(201,168,76,0.3)', color: 'var(--gold)', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '0.6rem', letterSpacing: '0.12em', whiteSpace: 'nowrap' }}>✎ EDIT</button>
